@@ -7,11 +7,11 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0A0F1E;
-    --bg2: #0F1A35;
-    --purple: #6366F1;
-    --purple-light: #A5B4FC;
-    --purple-dark: #4338CA;
+    --bg: #0F0A1E;
+    --bg2: #200B3E;
+    --purple: #8B5CF6;
+    --purple-light: #C4B5FD;
+    --purple-dark: #6D28D9;
     --card: #ffffff;
     --text: #1e1b4b;
     --muted: #6b7280;
@@ -30,7 +30,7 @@
     display: none; flex-direction: column;
     padding: 36px 48px 76px;
     overflow-y: auto; overflow-x: hidden;
-    background: linear-gradient(135deg, var(--bg) 0%, #0f1a35 100%);
+    background: linear-gradient(135deg, #0F0A1E 0%, #200B3E 50%, #3D1B6E 100%);
     animation: fadeIn .3s ease;
   }
   .slide.active { display: flex; }
@@ -39,12 +39,12 @@
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     background: rgba(10,15,30,.93); backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(99,102,241,.25);
+    border-top: 1px solid rgba(139,92,246,.3);
     display: flex; align-items: center; justify-content: center;
     gap: 16px; padding: 10px 24px; height: 54px;
   }
   .nav button {
-    background: rgba(99,102,241,.18); border: 1px solid rgba(99,102,241,.35);
+    background: rgba(139,92,246,.18); border: 1px solid rgba(139,92,246,.35);
     color: #fff; border-radius: 8px; padding: 6px 14px; cursor: pointer;
     font-size: 13px; font-weight: 600; transition: all .2s;
   }
@@ -72,7 +72,7 @@
   .badge-yellow { background: rgba(234,179,8,.15);  color: #fde047; border: 1px solid rgba(234,179,8,.3); }
   .badge-green  { background: rgba(34,197,94,.15);  color: #86efac; border: 1px solid rgba(34,197,94,.3); }
   .badge-blue   { background: rgba(59,130,246,.15); color: #93c5fd; border: 1px solid rgba(59,130,246,.3); }
-  .badge-purple { background: rgba(99,102,241,.15); color: #c7d2fe; border: 1px solid rgba(99,102,241,.3); }
+  .badge-purple { background: rgba(139,92,246,.15); color: #c7d2fe; border: 1px solid rgba(139,92,246,.3); }
   .badge-gray   { background: rgba(107,114,128,.15);color: #d1d5db; border: 1px solid rgba(107,114,128,.3); }
 
   .stat { text-align: center; padding: 18px 10px; }
@@ -80,7 +80,7 @@
   .stat-label { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th { background: rgba(99,102,241,.2); color: var(--purple-light); font-weight: 700; padding: 9px 11px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  th { background: rgba(139,92,246,.2); color: var(--purple-light); font-weight: 700; padding: 9px 11px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
   td { padding: 8px 11px; border-bottom: 1px solid rgba(255,255,255,.06); }
   tr:hover td { background: rgba(255,255,255,.03); }
 
@@ -90,7 +90,7 @@
   .alert-yellow { background: rgba(234,179,8,.1);  border-color: var(--yellow); }
   .alert-green  { background: rgba(34,197,94,.1);  border-color: var(--green); }
   .alert-blue   { background: rgba(59,130,246,.1); border-color: var(--blue); }
-  .alert-indigo { background: rgba(99,102,241,.1); border-color: var(--purple); }
+  .alert-indigo { background: rgba(139,92,246,.1); border-color: var(--purple); }
   .alert-title  { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
   .alert-body   { font-size: 12px; color: rgba(255,255,255,.75); line-height: 1.6; }
 
@@ -101,7 +101,7 @@
   .timeline-item { display: flex; gap: 14px; align-items: flex-start; }
   .timeline-dot { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
 
-  .cover-brand { display: inline-flex; align-items: center; gap: 9px; background: rgba(99,102,241,.15); border: 1px solid rgba(99,102,241,.35); border-radius: 10px; padding: 7px 16px; margin-bottom: 28px; font-size: 12px; font-weight: 600; color: var(--purple-light); }
+  .cover-brand { display: inline-flex; align-items: center; gap: 9px; background: rgba(139,92,246,.15); border: 1px solid rgba(139,92,246,.35); border-radius: 10px; padding: 7px 16px; margin-bottom: 28px; font-size: 12px; font-weight: 600; color: var(--purple-light); }
   .cover-title span { color: var(--purple-light); }
   .cover-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 40px; }
   .cover-stats { display: flex; gap: 20px; flex-wrap: wrap; }
@@ -111,7 +111,7 @@
   .divider { width: 50px; height: 4px; background: var(--purple); border-radius: 2px; margin: 14px 0; }
 
   .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
-  .tag { background: rgba(99,102,241,.15); border: 1px solid rgba(99,102,241,.3); color: var(--purple-light); padding: 2px 9px; border-radius: 99px; font-size: 11px; }
+  .tag { background: rgba(139,92,246,.15); border: 1px solid rgba(139,92,246,.3); color: var(--purple-light); padding: 2px 9px; border-radius: 99px; font-size: 11px; }
 
   .check-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
   .check-list li { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; line-height: 1.5; }
@@ -123,7 +123,7 @@
 
   .logo-fixed { position: fixed; top: 18px; left: 22px; z-index: 200; height: 32px; pointer-events: none; }
   .cover-centered { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; padding: 56px 20px 20px; gap: 0; }
-  .cover-pill-new { display: inline-flex; align-items: center; gap: 8px; background: rgba(99,102,241,.18); border: 1px solid rgba(99,102,241,.4); border-radius: 99px; padding: 9px 22px; font-size: 11px; font-weight: 700; color: var(--purple-light); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 28px; }
+  .cover-pill-new { display: inline-flex; align-items: center; gap: 8px; background: rgba(139,92,246,.18); border: 1px solid rgba(139,92,246,.4); border-radius: 99px; padding: 9px 22px; font-size: 11px; font-weight: 700; color: var(--purple-light); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 28px; }
   .cstat-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
   .cstat-item { display: flex; flex-direction: column; align-items: center; padding: 0 32px; }
   .cstat-item + .cstat-item { border-left: 1px solid rgba(255,255,255,.12); }
@@ -347,7 +347,7 @@
         <table>
           <thead><tr><th>Statut</th><th>Catégorie / Trigger</th></tr></thead>
           <tbody>
-            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">QUALIFICATION & ROUTAGE</td></tr>
+            <tr><td colspan="2" style="background:rgba(139,92,246,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">QUALIFICATION & ROUTAGE</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Email entrant</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Appel entrant</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Formulaire web</td></tr>
@@ -355,14 +355,14 @@
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Typologie client = B2B</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Typologie client = B2C</td></tr>
             <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>Typologie client = Non qualifié</td></tr>
-            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">ATTRIBUTION AM (Account Managers)</td></tr>
+            <tr><td colspan="2" style="background:rgba(139,92,246,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">ATTRIBUTION AM (Account Managers)</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe AM Stratégique</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe AM Administration</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → AM2 à AM9 (8 triggers)</td></tr>
             <tr><td><span class="badge badge-orange" style="font-size:9px;">ON ⚠</span></td><td>Attribution → AM10 (Test Raphaël)</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe Account Managers</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Priority Support</td></tr>
-            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">EMAILS & NOTIFICATIONS</td></tr>
+            <tr><td colspan="2" style="background:rgba(139,92,246,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">EMAILS & NOTIFICATIONS</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Accusé de réception – création ticket client</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Notifier demandeur + CC de la mise à jour</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Email support@noelse.com → Adresse dest.</td></tr>
@@ -371,7 +371,7 @@
             <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier l'assigné de l'affectation</td></tr>
             <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier le groupe de l'affectation</td></tr>
             <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier l'assigné de la mise à jour</td></tr>
-            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">AUTRES</td></tr>
+            <tr><td colspan="2" style="background:rgba(139,92,246,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">AUTRES</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>CSAT positif → Trustpilot</td></tr>
             <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Mastercard, tickets Invoice, Résiliation…</td></tr>
             <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>CAF – Message automatique versement</td></tr>
@@ -931,7 +931,7 @@
       <div class="merci-info-col"><div class="mi-label">Contact</div><div class="mi-val">guillaume.garcia@omycare.fr</div></div>
       <div class="merci-info-col"><div class="mi-label">Date</div><div class="mi-val">Août 2026</div></div>
     </div>
-    <div style="margin-top:18px;background:rgba(99,102,241,.13);border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:18px 44px;max-width:520px;width:100%;">
+    <div style="margin-top:18px;background:rgba(139,92,246,.13);border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:18px 44px;max-width:520px;width:100%;">
       <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:7px;">Prochaine étape</div>
       <div style="font-size:14px;color:rgba(255,255,255,.85);">Validation des priorités S1 et planification de la mise en œuvre</div>
     </div>
