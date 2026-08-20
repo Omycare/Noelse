@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit Zendesk — Noelse</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0A0F1E;
+    --bg2: #0F1A35;
+    --purple: #6366F1;
+    --purple-light: #A5B4FC;
+    --purple-dark: #4338CA;
+    --card: #ffffff;
+    --text: #1e1b4b;
+    --muted: #6b7280;
+    --red: #EF4444;
+    --orange: #F97316;
+    --yellow: #EAB308;
+    --green: #22C55E;
+    --blue: #3B82F6;
+    --teal: #14B8A6;
+  }
+  html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: #fff; }
+
+  .deck { width: 100%; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    padding: 36px 48px 76px;
+    overflow-y: auto; overflow-x: hidden;
+    background: linear-gradient(135deg, var(--bg) 0%, #0f1a35 100%);
+    animation: fadeIn .3s ease;
+  }
+  .slide.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,15,30,.93); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(99,102,241,.25);
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; padding: 10px 24px; height: 54px;
+  }
+  .nav button {
+    background: rgba(99,102,241,.18); border: 1px solid rgba(99,102,241,.35);
+    color: #fff; border-radius: 8px; padding: 6px 14px; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: all .2s;
+  }
+  .nav button:hover { background: var(--purple); }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.2); cursor: pointer; transition: all .2s; }
+  .dot.active { background: var(--purple); transform: scale(1.3); }
+  .slide-counter { font-size: 12px; color: rgba(255,255,255,.4); min-width: 44px; text-align: center; }
+
+  .slide-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--purple-light); margin-bottom: 5px; }
+  h1 { font-size: clamp(26px, 3.8vw, 46px); font-weight: 800; line-height: 1.1; }
+  h2 { font-size: clamp(18px, 2.4vw, 28px); font-weight: 700; margin-bottom: 18px; }
+  h3 { font-size: 15px; font-weight: 700; margin-bottom: 9px; }
+  p { font-size: 13px; line-height: 1.6; }
+
+  .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 18px; }
+  .grid { display: grid; gap: 14px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-red    { background: rgba(239,68,68,.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
+  .badge-orange { background: rgba(249,115,22,.15); color: #fdba74; border: 1px solid rgba(249,115,22,.3); }
+  .badge-yellow { background: rgba(234,179,8,.15);  color: #fde047; border: 1px solid rgba(234,179,8,.3); }
+  .badge-green  { background: rgba(34,197,94,.15);  color: #86efac; border: 1px solid rgba(34,197,94,.3); }
+  .badge-blue   { background: rgba(59,130,246,.15); color: #93c5fd; border: 1px solid rgba(59,130,246,.3); }
+  .badge-purple { background: rgba(99,102,241,.15); color: #c7d2fe; border: 1px solid rgba(99,102,241,.3); }
+  .badge-gray   { background: rgba(107,114,128,.15);color: #d1d5db; border: 1px solid rgba(107,114,128,.3); }
+
+  .stat { text-align: center; padding: 18px 10px; }
+  .stat-num { font-size: clamp(26px,3.5vw,44px); font-weight: 800; color: var(--purple-light); line-height: 1; }
+  .stat-label { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: rgba(99,102,241,.2); color: var(--purple-light); font-weight: 700; padding: 9px 11px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  td { padding: 8px 11px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  tr:hover td { background: rgba(255,255,255,.03); }
+
+  .alert { border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; border-left: 4px solid; }
+  .alert-red    { background: rgba(239,68,68,.1);  border-color: var(--red); }
+  .alert-orange { background: rgba(249,115,22,.1); border-color: var(--orange); }
+  .alert-yellow { background: rgba(234,179,8,.1);  border-color: var(--yellow); }
+  .alert-green  { background: rgba(34,197,94,.1);  border-color: var(--green); }
+  .alert-blue   { background: rgba(59,130,246,.1); border-color: var(--blue); }
+  .alert-indigo { background: rgba(99,102,241,.1); border-color: var(--purple); }
+  .alert-title  { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+  .alert-body   { font-size: 12px; color: rgba(255,255,255,.75); line-height: 1.6; }
+
+  .progress-bar { background: rgba(255,255,255,.1); border-radius: 99px; height: 7px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+
+  .timeline { display: flex; flex-direction: column; gap: 10px; }
+  .timeline-item { display: flex; gap: 14px; align-items: flex-start; }
+  .timeline-dot { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+
+  .cover-brand { display: inline-flex; align-items: center; gap: 9px; background: rgba(99,102,241,.15); border: 1px solid rgba(99,102,241,.35); border-radius: 10px; padding: 7px 16px; margin-bottom: 28px; font-size: 12px; font-weight: 600; color: var(--purple-light); }
+  .cover-title span { color: var(--purple-light); }
+  .cover-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 40px; }
+  .cover-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+  .cover-stat { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 14px 20px; text-align: center; min-width: 100px; }
+  .cover-stat .n { font-size: 28px; font-weight: 800; color: var(--purple-light); }
+  .cover-stat .l { font-size: 10px; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .divider { width: 50px; height: 4px; background: var(--purple); border-radius: 2px; margin: 14px 0; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .tag { background: rgba(99,102,241,.15); border: 1px solid rgba(99,102,241,.3); color: var(--purple-light); padding: 2px 9px; border-radius: 99px; font-size: 11px; }
+
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .check-list li { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; line-height: 1.5; }
+  .check-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .cross-list li::before { content: '✗'; color: var(--red); }
+  .warn-list li::before  { content: '!'; color: var(--yellow); }
+
+  .brand-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .slide { padding: 20px 16px 68px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    h1 { font-size: 24px; } h2 { font-size: 18px; }
+    th.hide-m, td.hide-m { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════ SLIDE 1 — COVER ═══════════════════════════════ -->
+<div class="slide active" id="slide-1">
+  <div class="cover-brand">💳 Audit Zendesk — Rapport complet</div>
+  <h1 class="cover-title">Compte <span>Noelse</span></h1>
+  <div class="divider"></div>
+  <p class="cover-sub">Diagnostic approfondi · Août 2026 · Noelse SAS · noelsepay.zendesk.com</p>
+
+  <div class="cover-stats">
+    <div class="cover-stat"><div class="n">37 701</div><div class="l">Tickets</div></div>
+    <div class="cover-stat"><div class="n">57</div><div class="l">Triggers</div></div>
+    <div class="cover-stat"><div class="n">69</div><div class="l">Macros</div></div>
+    <div class="cover-stat"><div class="n">30</div><div class="l">Agents</div></div>
+    <div class="cover-stat"><div class="n">3</div><div class="l">Marques</div></div>
+    <div class="cover-stat"><div class="n">18</div><div class="l">Groupes</div></div>
+    <div class="cover-stat"><div class="n">100</div><div class="l">Articles HC</div></div>
+  </div>
+
+  <div style="margin-top:auto;padding-top:32px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Noelse B2C</span>
+      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Noelse Professionnels</span>
+      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Afone Paiement</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span class="badge badge-red">🔴 3 urgences critiques</span>
+      <span class="badge badge-orange">🟠 4 points importants</span>
+      <span class="badge badge-yellow">🟡 5 points à optimiser</span>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,.35);margin-top:8px;">Préparé par Stéphanie · OmyCare Consulting · Compte créé nov. 2025</p>
+  </div>
+</div>
+
+<!-- ═════════════════════════ SLIDE 2 — VUE D'ENSEMBLE ════════════════════════════ -->
+<div class="slide" id="slide-2">
+  <div class="slide-label">Slide 02 — Vue d'ensemble</div>
+  <h2>Diagnostic du compte Noelse</h2>
+
+  <div class="grid grid-4" style="margin-bottom:16px;">
+    <div class="card stat">
+      <div class="stat-num" style="color:#EF4444;">43%</div>
+      <div class="stat-label">CSAT Positif</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.4);">57% négatif — inversé</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Politique SLA</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.4);">filtre trop restrictif</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-num">18</div>
+      <div class="stat-label">Groupes métier</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.4);">structure très mature</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-num">100</div>
+      <div class="stat-label">Articles Help Center</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.4);">2 en brouillon seulement</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="flex:1;">
+    <div class="card">
+      <h3 style="color:#86efac;margin-bottom:10px;">✓ Points forts</h3>
+      <ul class="check-list">
+        <li>Structure de groupes exemplaire — 18 groupes métier bien définis</li>
+        <li>SLA configuré avec 4 niveaux de priorité (Urgent/Élevé/Normal/Faible)</li>
+        <li>Horaires commerciaux corrects — Lun-Ven 09:00-18:00</li>
+        <li>Help Center très complet — 100 articles, quasi aucun brouillon</li>
+        <li>3 marques gérées (Noelse B2C, Pro, Afone Paiement)</li>
+        <li>Skill-based routing activé</li>
+        <li>15 apps installées dont Aircall, Shopify, Jira, Pipedrive, Trustpilot</li>
+        <li>Macros organisées BtB:: / BtC:: — nomenclature cohérente</li>
+        <li>Triggers de qualification multicanal (email, appel, formulaire, FAQ)</li>
+        <li>AI Copilot actif sur 2 288 tickets</li>
+        <li>Flux CSAT → Trustpilot configuré</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:#fca5a5;margin-bottom:10px;">✗ Problèmes détectés</h3>
+      <ul class="check-list cross-list">
+        <li><strong>CSAT inversé : 57% négatif</strong> — problème de qualité de service grave</li>
+        <li>SLA appliqué uniquement au statut "Nouveau" — pas aux autres statuts</li>
+        <li>Statut "En pause" (On Hold) désactivé</li>
+        <li>Triggers de notification interne désactivés (assigné, groupe)</li>
+        <li>Automations de relance "en attente" désactivées</li>
+        <li>Compte test "FOUAD" actif en production</li>
+        <li>2 apps Jira installées en doublon</li>
+        <li>2 champs "Shopify order ID" en doublon</li>
+        <li>2 macros "Facture" avec le même nom</li>
+        <li>Triggers de test en production (AM10 "Test Raphaël")</li>
+        <li>3 452 tickets à sentiment négatif détecté par l'IA</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ SLIDE 3 — URGENCES CRITIQUES ══════════════════════════ -->
+<div class="slide" id="slide-3">
+  <div class="slide-label">Slide 03 — Urgences critiques</div>
+  <h2>Priorité maximale — À corriger immédiatement</h2>
+
+  <div class="alert alert-red">
+    <div class="alert-title"><span class="badge badge-red">C1</span> CSAT inversé : 57% d'évaluations négatives</div>
+    <div class="alert-body">
+      Sur 2 675 évaluations reçues, <strong>1 526 sont négatives (57%)</strong> contre seulement 1 149 positives (43%). C'est l'inverse d'un compte en bonne santé. Dans un contexte fintech (paiements, virements, allocations), chaque friction client peut avoir un impact direct sur la rétention.
+      <br><br>
+      <div style="display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:180px;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="color:#86efac;">Positif</span><span>1 149 (43%)</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:43%;background:var(--green);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:5px;margin-bottom:3px;"><span style="color:#fca5a5;">Négatif</span><span>1 526 (57%)</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:57%;background:var(--red);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:5px;margin-bottom:3px;"><span style="color:rgba(255,255,255,.4);">Sans réponse</span><span>23 185</span></div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);flex:1;min-width:160px;">
+          Taux de réponse : <strong style="color:#fde047;">10,3%</strong><br>
+          Sentiment négatif IA : <strong style="color:#fca5a5;">3 452 tickets</strong><br>
+          Cibles recommandées : &gt;80% positif · &gt;20% réponse
+        </div>
+      </div>
+      <br><strong>Action :</strong> Analyser les tickets mauvais CSAT par catégorie, agent et type de demande pour identifier les causes racines.
+    </div>
+  </div>
+
+  <div class="alert alert-red" style="margin-top:6px;">
+    <div class="alert-title"><span class="badge badge-red">C2</span> SLA filtré sur le seul statut "Nouveau" — non applicable aux autres tickets</div>
+    <div class="alert-body">
+      La politique SLA "Définir le délai avant première réponse" ne s'applique qu'aux tickets ayant le statut <strong>"Nouveau"</strong>. Dès qu'un ticket passe en "Ouvert", "En cours" ou autre statut, le SLA ne s'applique plus — rendant le suivi des délais inopérant pour la majorité du cycle de vie du ticket.
+      <br><br>
+      <strong>Action :</strong> Modifier le filtre de la politique SLA pour supprimer la condition sur le statut, ou la rendre plus large (ex : toutes priorités, tous statuts).
+    </div>
+  </div>
+
+  <div class="alert alert-orange" style="margin-top:6px;">
+    <div class="alert-title"><span class="badge badge-orange">C3</span> Statut "En pause" (On Hold) désactivé</div>
+    <div class="alert-body">
+      Le statut personnalisé "En pause" est désactivé. Ce statut est essentiel pour les tickets en attente d'un tiers (partenaire, prestataire, banque) — le marquer "En attente" (pending) implique une réponse client attendue, ce qui est sémantiquement incorrect et fausse les métriques SLA.
+      <br><strong>Action :</strong> Réactiver le statut "En pause" et former les agents à son usage (en attente d'un tiers ≠ en attente du client).
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ SLIDE 4 — POINTS IMPORTANTS ══════════════════════════ -->
+<div class="slide" id="slide-4">
+  <div class="slide-label">Slide 04 — Points importants</div>
+  <h2>Corrections prioritaires</h2>
+
+  <div class="alert alert-orange">
+    <div class="alert-title"><span class="badge badge-orange">C4</span> Notifications internes d'assignation désactivées</div>
+    <div class="alert-body">
+      Quatre triggers de notification interne sont désactivés :
+      <ul style="margin-top:5px;padding-left:14px;display:flex;flex-direction:column;gap:3px;">
+        <li><strong>OFF</strong> — Notifier l'assigné de l'affectation</li>
+        <li><strong>OFF</strong> — Notifier le groupe de l'affectation</li>
+        <li><strong>OFF</strong> — Notifier l'assigné de la mise à jour des commentaires</li>
+        <li><strong>OFF</strong> — Notifier tous les agents de la demande reçue</li>
+      </ul>
+      <br>Les agents ne sont pas alertés lors des assignations ou mises à jour — risque de tickets oubliés surtout avec 30 agents et 18 groupes.
+    </div>
+  </div>
+
+  <div class="alert alert-orange">
+    <div class="alert-title"><span class="badge badge-orange">C5</span> Automations de relance tickets en attente désactivées</div>
+    <div class="alert-body">
+      <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
+        <li><strong>OFF</strong> — Notification de demande en attente depuis 24 heures</li>
+        <li><strong>OFF</strong> — Notification de demande en attente depuis 5 jours</li>
+        <li><strong>OFF</strong> — Réponse requise (automation de relance personnalisée)</li>
+      </ul>
+      <br>Avec 37 701 tickets et un flux important, les tickets en attente peuvent rester sans suivi indéfiniment. C'est un risque direct sur la satisfaction client déjà dégradée.
+    </div>
+  </div>
+
+  <div class="alert alert-orange">
+    <div class="alert-title"><span class="badge badge-orange">C6</span> Compte test actif en production + Triggers de test</div>
+    <div class="alert-body">
+      <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
+        <li>Agent "<strong>COMPTE TEST ONBOARDING - FOUAD</strong>" (fkamil@noelse.com) actif — occupe une licence</li>
+        <li>Trigger "<strong>Attribution automatique → AM10 (Test Raphaël)</strong>" actif en production</li>
+        <li>Trigger "<strong>Test Typologie client</strong>" désactivé mais toujours présent</li>
+      </ul>
+      <br><strong>Action :</strong> Désactiver le compte test, supprimer les triggers de test ou les renommer proprement.
+    </div>
+  </div>
+
+  <div class="alert alert-yellow">
+    <div class="alert-title"><span class="badge badge-yellow">C7</span> Doublons : apps Jira, champs Shopify, macros Facture</div>
+    <div class="alert-body">
+      <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
+        <li>2 apps <strong>Jira</strong> installées (IDs 41387085465745 et 43352415051537)</li>
+        <li>2 champs <strong>"Shopify order ID"</strong> identiques (integer)</li>
+        <li>2 macros nommées <strong>"Facture"</strong> — confusion potentielle pour les agents</li>
+      </ul>
+      <br><strong>Action :</strong> Identifier et supprimer les doublons pour éviter les conflits de données.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 5 — TRIGGERS & AUTOMATIONS ══════════════════════ -->
+<div class="slide" id="slide-5">
+  <div class="slide-label">Slide 05 — Triggers & Automations</div>
+  <h2>Architecture complexe — 57 triggers, 11 automations</h2>
+
+  <div class="grid grid-2" style="gap:14px;flex:1;">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3>Triggers <span class="badge badge-purple" style="margin-left:4px;">57 total</span></h3>
+        <div style="display:flex;gap:5px;"><span class="badge badge-green">43 ON</span><span class="badge badge-gray">14 OFF</span></div>
+      </div>
+      <div style="overflow-y:auto;max-height:calc(100vh - 250px);">
+        <table>
+          <thead><tr><th>Statut</th><th>Catégorie / Trigger</th></tr></thead>
+          <tbody>
+            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">QUALIFICATION & ROUTAGE</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Email entrant</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Appel entrant</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Formulaire web</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Qualification – Formulaire FAQ</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Typologie client = B2B</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Typologie client = B2C</td></tr>
+            <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>Typologie client = Non qualifié</td></tr>
+            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">ATTRIBUTION AM (Account Managers)</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe AM Stratégique</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe AM Administration</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → AM2 à AM9 (8 triggers)</td></tr>
+            <tr><td><span class="badge badge-orange" style="font-size:9px;">ON ⚠</span></td><td>Attribution → AM10 (Test Raphaël)</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Groupe Account Managers</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Attribution → Priority Support</td></tr>
+            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">EMAILS & NOTIFICATIONS</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Accusé de réception – création ticket client</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Notifier demandeur + CC de la mise à jour</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Email support@noelse.com → Adresse dest.</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Email priority.support@noelse.com → dest.</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Email customer@noelse.com → dest.</td></tr>
+            <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier l'assigné de l'affectation</td></tr>
+            <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier le groupe de l'affectation</td></tr>
+            <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notifier l'assigné de la mise à jour</td></tr>
+            <tr><td colspan="2" style="background:rgba(99,102,241,.1);font-size:10px;font-weight:700;color:var(--purple-light);padding:5px 11px;">AUTRES</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>CSAT positif → Trustpilot</td></tr>
+            <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Mastercard, tickets Invoice, Résiliation…</td></tr>
+            <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>CAF – Message automatique versement</td></tr>
+            <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>Activer Auto Assist</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3>Automations <span class="badge badge-purple" style="margin-left:4px;">11 total</span></h3>
+        <div style="display:flex;gap:5px;"><span class="badge badge-green">5 ON</span><span class="badge badge-gray">6 OFF</span></div>
+      </div>
+      <table style="margin-bottom:12px;">
+        <thead><tr><th>Statut</th><th>Automation</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Clore ticket 4 jours après Résolu</td></tr>
+          <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>CSAT positif → Trustpilot</td></tr>
+          <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Demander CSAT (automatisme système)</td></tr>
+          <tr><td><span class="badge badge-green" style="font-size:9px;">ON</span></td><td>Demander CSAT — tickets &lt; 1 mois</td></tr>
+          <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notification en attente 24h</td></tr>
+          <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Notification en attente 5 jours</td></tr>
+          <tr><td><span class="badge badge-red" style="font-size:9px;">OFF ⚠</span></td><td>Réponse requise</td></tr>
+          <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>[GenAI] Rappel via réponse automatique IA</td></tr>
+          <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>[GenAI] Résolution via réponse IA</td></tr>
+          <tr><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td><td>Récupération backlog pro/particuliers</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-indigo">
+        <div class="alert-title" style="font-size:12px;">IA Générative — 2 automations présentes mais OFF</div>
+        <div class="alert-body">Les automations "[GenAI] Rappel" et "[GenAI] Résolution" sont configurées mais désactivées. À activer progressivement sur un périmètre test (ex : questions FAQ simples) pour réduire la charge des agents.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SLIDE 6 — SLA & HORAIRES ═════════════════════════════ -->
+<div class="slide" id="slide-6">
+  <div class="slide-label">Slide 06 — SLA & Horaires commerciaux</div>
+  <h2>SLA configuré mais filtre trop restrictif · Horaires corrects</h2>
+
+  <div class="grid grid-2" style="gap:14px;margin-bottom:16px;">
+    <div class="alert alert-orange">
+      <div class="alert-title">Politique SLA — "Définir le délai avant première réponse"</div>
+      <div class="alert-body">
+        <span class="badge badge-orange" style="margin-bottom:8px;display:inline-block;">Filtre : statut = Nouveau uniquement</span><br>
+        La politique ne s'applique qu'aux tickets en statut "Nouveau". Une fois le ticket passé en "Ouvert" ou "En cours", le SLA ne s'active plus.
+        <br><br>
+        <table>
+          <thead><tr><th>Priorité</th><th>1ère réponse</th><th>Résolution</th><th>Horaires</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-red" style="font-size:9px;">Urgent</span></td><td style="color:#86efac;">1h</td><td style="color:#86efac;">2h</td><td style="font-size:10px;">✓ Business hours</td></tr>
+            <tr><td><span class="badge badge-orange" style="font-size:9px;">Élevé</span></td><td style="color:#86efac;">2h</td><td style="color:#86efac;">4h</td><td style="font-size:10px;">✓ Business hours</td></tr>
+            <tr><td><span class="badge badge-yellow" style="font-size:9px;">Normal</span></td><td style="color:#86efac;">4h</td><td style="color:#86efac;">8h</td><td style="font-size:10px;">✓ Business hours</td></tr>
+            <tr><td><span class="badge badge-gray" style="font-size:9px;">Faible</span></td><td style="color:#86efac;">8h</td><td style="color:#86efac;">16h</td><td style="font-size:10px;">✓ Business hours</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="alert alert-green" style="margin-bottom:10px;">
+        <div class="alert-title">Horaires "Disponibilités Agents - Noelse"</div>
+        <div class="alert-body">
+          <table>
+            <tr><th>Jour</th><th>Plage horaire</th><th>Durée</th></tr>
+            <tr><td>Lundi – Vendredi</td><td style="color:#86efac;">09:00 – 18:00</td><td style="color:#86efac;">9h</td></tr>
+            <tr><td>Sam. – Dim.</td><td colspan="2" style="color:rgba(255,255,255,.4);">Fermé</td></tr>
+            <tr><td><strong>Total/semaine</strong></td><td colspan="2" style="color:#86efac;font-weight:700;">45h ✓</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="alert alert-yellow">
+        <div class="alert-title">⚠ Point à vérifier : métriques secondaires hors horaires</div>
+        <div class="alert-body">
+          Seule la <strong>première réponse</strong> utilise les business hours. Les métriques <em>agent_work_time</em>, <em>next_reply_time</em> et <em>total_resolution_time</em> sont en <strong>temps réel (24/7)</strong> — ce qui peut générer des alertes de dépassement la nuit ou le week-end.
+          <br><br><strong>Recommandation :</strong> Activer les business hours sur toutes les métriques SLA.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-blue">
+    <div class="alert-title">📋 Correction SLA recommandée</div>
+    <div class="alert-body">Admin Center → Objets et règles → SLA → Modifier la politique → Supprimer la condition "Statut = Nouveau" (ou remplacer par une condition sur la marque / le canal pour une logique plus fine).</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 7 — VUES & GROUPES ════════════════════════════ -->
+<div class="slide" id="slide-7">
+  <div class="slide-label">Slide 07 — Vues & Groupes</div>
+  <h2>36 vues · 18 groupes — Organisation métier exemplaire</h2>
+
+  <div class="grid grid-2" style="gap:14px;flex:1;">
+    <div>
+      <h3 style="margin-bottom:8px;">Vues actives (21) <span class="badge badge-green" style="font-size:9px;margin-left:4px;">Bon niveau</span></h3>
+      <table>
+        <thead><tr><th>Vue</th><th>Cible</th></tr></thead>
+        <tbody>
+          <tr><td>🙂 Mes tickets</td><td><span class="badge badge-blue" style="font-size:9px;">Agent</span></td></tr>
+          <tr><td>💬 Tickets en cours</td><td><span class="badge badge-blue" style="font-size:9px;">Équipe</span></td></tr>
+          <tr><td>💁 Clients Particuliers</td><td><span class="badge badge-purple" style="font-size:9px;">Support B2C</span></td></tr>
+          <tr><td>🧑‍💼 Clients Professionnels</td><td><span class="badge badge-purple" style="font-size:9px;">Support B2B</span></td></tr>
+          <tr><td>❓ Clients non qualifiés</td><td><span class="badge badge-yellow" style="font-size:9px;">À traiter</span></td></tr>
+          <tr><td>🚨 Nouveaux tickets</td><td><span class="badge badge-red" style="font-size:9px;">Urgence</span></td></tr>
+          <tr><td>🚩 Priority Support</td><td><span class="badge badge-orange" style="font-size:9px;">Premium</span></td></tr>
+          <tr><td>☎️ Appels manqués / MV</td><td><span class="badge badge-blue" style="font-size:9px;">Aircall</span></td></tr>
+          <tr><td>📥 Tickets non affectés</td><td><span class="badge badge-red" style="font-size:9px;">Équipe</span></td></tr>
+          <tr><td>💳 Mastercard</td><td><span class="badge badge-purple" style="font-size:9px;">Spécialisée</span></td></tr>
+          <tr><td>📝 Tickets notés (PS)</td><td><span class="badge badge-green" style="font-size:9px;">CSAT</span></td></tr>
+          <tr><td>🏷️ Tickets notés 7 jours</td><td><span class="badge badge-green" style="font-size:9px;">CSAT</span></td></tr>
+          <tr><td>⏸️ Tickets en attente</td><td><span class="badge badge-gray" style="font-size:9px;">Suivi</span></td></tr>
+          <tr><td>Supérieur 1 mois (particuliers)</td><td><span class="badge badge-orange" style="font-size:9px;">Ancienneté</span></td></tr>
+          <tr><td>Résiliation</td><td><span class="badge badge-red" style="font-size:9px;">Churn</span></td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-yellow" style="margin-top:10px;">
+        <div class="alert-title" style="font-size:11px;">⚠ Faute de frappe</div>
+        <div class="alert-body">"<strong>Affecation</strong> automatique" → "<strong>Affectation</strong> automatique" (vue inactive)</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px;">Groupes (18) <span class="badge badge-green" style="font-size:9px;margin-left:4px;">Structure mature</span></h3>
+      <table>
+        <thead><tr><th>Groupe</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td>Account Managers</td><td><span class="badge badge-blue" style="font-size:9px;">B2B</span></td></tr>
+          <tr><td>AM Administration</td><td><span class="badge badge-blue" style="font-size:9px;">B2B</span></td></tr>
+          <tr><td>AM Stratégique</td><td><span class="badge badge-blue" style="font-size:9px;">B2B</span></td></tr>
+          <tr><td>Support Particuliers</td><td><span class="badge badge-purple" style="font-size:9px;">B2C</span></td></tr>
+          <tr><td>Support Professionnels</td><td><span class="badge badge-purple" style="font-size:9px;">B2B</span></td></tr>
+          <tr><td>Priority Support</td><td><span class="badge badge-orange" style="font-size:9px;">Premium</span></td></tr>
+          <tr><td>Onboarding</td><td><span class="badge badge-green" style="font-size:9px;">Acquisition</span></td></tr>
+          <tr><td>Recouvrement</td><td><span class="badge badge-red" style="font-size:9px;">Finance</span></td></tr>
+          <tr><td>Facturation</td><td><span class="badge badge-yellow" style="font-size:9px;">Finance</span></td></tr>
+          <tr><td>Compliance</td><td><span class="badge badge-red" style="font-size:9px;">Réglementaire</span></td></tr>
+          <tr><td>RSSI</td><td><span class="badge badge-red" style="font-size:9px;">Sécurité</span></td></tr>
+          <tr><td>IT</td><td><span class="badge badge-gray" style="font-size:9px;">Interne</span></td></tr>
+          <tr><td>Produit</td><td><span class="badge badge-gray" style="font-size:9px;">Interne</span></td></tr>
+          <tr><td>Growth / Sales</td><td><span class="badge badge-green" style="font-size:9px;">Commercial</span></td></tr>
+          <tr><td>Admin / Assistance</td><td><span class="badge badge-gray" style="font-size:9px;">Interne</span></td></tr>
+          <tr><td>Docusign / Archivage</td><td><span class="badge badge-gray" style="font-size:9px;">Admin</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SLIDE 8 — FORMULAIRES & CHAMPS ══════════════════════ -->
+<div class="slide" id="slide-8">
+  <div class="slide-label">Slide 08 — Formulaires, Champs & Agents</div>
+  <h2>3 marques · 4 formulaires · 30 agents</h2>
+
+  <div class="grid grid-2" style="gap:14px;flex:1;">
+    <div>
+      <h3 style="margin-bottom:8px;">Marques & Formulaires</h3>
+      <table style="margin-bottom:12px;">
+        <thead><tr><th>Marque</th><th>URL</th><th>État</th></tr></thead>
+        <tbody>
+          <tr><td>Noelse (B2C)</td><td style="font-size:10px;">faq.noelse.com</td><td><span class="badge badge-green" style="font-size:9px;">Actif</span></td></tr>
+          <tr><td>Noelse Professionnels</td><td style="font-size:10px;">faqpro.noelse.com</td><td><span class="badge badge-green" style="font-size:9px;">Actif</span></td></tr>
+          <tr><td>Afone Paiement</td><td style="font-size:10px;">faq.afonepaiement.com</td><td><span class="badge badge-green" style="font-size:9px;">Actif</span></td></tr>
+        </tbody>
+      </table>
+      <table style="margin-bottom:12px;">
+        <thead><tr><th>Formulaire</th><th>État</th></tr></thead>
+        <tbody>
+          <tr><td>Formulaire de ticket par défaut</td><td><span class="badge badge-green" style="font-size:9px;">ON</span></td></tr>
+          <tr><td>Formulaire Support</td><td><span class="badge badge-green" style="font-size:9px;">ON</span></td></tr>
+          <tr><td>Formulaire Support Afone Paiement</td><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td></tr>
+          <tr><td>Formulaire Support Pro</td><td><span class="badge badge-gray" style="font-size:9px;">OFF</span></td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-yellow">
+        <div class="alert-title" style="font-size:11px;">⚠ Formulaires désactivés</div>
+        <div class="alert-body">Les formulaires "Afone Paiement" et "Support Pro" sont désactivés. Si ces marques reçoivent des tickets, vérifier que le formulaire par défaut capture correctement les infos métier nécessaires.</div>
+      </div>
+      <div class="alert alert-orange" style="margin-top:8px;">
+        <div class="alert-title" style="font-size:11px;">⚠ 2 champs "Shopify order ID" en doublon</div>
+        <div class="alert-body">Deux champs integer identiques créent une ambiguïté pour les agents et les intégrations. Identifier lequel est utilisé et supprimer l'autre.</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px;">Agents (30) — Répartition</h3>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+          <span>Agents humains</span>
+          <div style="display:flex;align-items:center;gap:8px;flex:1;margin-left:12px;">
+            <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:90%;background:var(--green);"></div></div>
+            <span style="min-width:20px;color:rgba(255,255,255,.5);">27</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+          <span>Comptes fonctionnels</span>
+          <div style="display:flex;align-items:center;gap:8px;flex:1;margin-left:12px;">
+            <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:7%;background:var(--orange);"></div></div>
+            <span style="min-width:20px;color:rgba(255,255,255,.5);">2</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+          <span>Compte test actif ⚠</span>
+          <div style="display:flex;align-items:center;gap:8px;flex:1;margin-left:12px;">
+            <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:3%;background:var(--red);"></div></div>
+            <span style="min-width:20px;color:rgba(255,255,255,.5);">1</span>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-red" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;">Compte test en production</div>
+        <div class="alert-body">"COMPTE TEST ONBOARDING - FOUAD" (fkamil@noelse.com) est actif et occupe une licence agent. À désactiver ou convertir en compte de test dédié.</div>
+      </div>
+      <h3 style="margin-bottom:8px;margin-top:4px;">Apps installées (15)</h3>
+      <div class="tags">
+        <span class="tag">Aircall</span>
+        <span class="tag">Jira ×2 ⚠</span>
+        <span class="tag">Shopify Noelse</span>
+        <span class="tag">Pipedrive</span>
+        <span class="tag">Trustpilot</span>
+        <span class="tag">Google Play</span>
+        <span class="tag">AppFollow</span>
+        <span class="tag">Time Tracking</span>
+        <span class="tag">User Data</span>
+        <span class="tag">Console Contrats</span>
+        <span class="tag">Interface TPE</span>
+        <span class="tag">Five Most Recent</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ SLIDE 9 — HELP CENTER & IA ═══════════════════════════ -->
+<div class="slide" id="slide-9">
+  <div class="slide-label">Slide 09 — Help Center & Intelligence Artificielle</div>
+  <h2>100 articles · AI Copilot actif · GenAI en attente</h2>
+
+  <div class="grid grid-2" style="gap:14px;flex:1;">
+    <div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;">
+        <div class="card" style="flex:1;text-align:center;padding:12px 8px;">
+          <div style="font-size:26px;font-weight:800;color:#86efac;">98</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;">Publiés</div>
+        </div>
+        <div class="card" style="flex:1;text-align:center;padding:12px 8px;">
+          <div style="font-size:26px;font-weight:800;color:#fde047;">2</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;">Brouillons</div>
+        </div>
+        <div class="card" style="flex:1;text-align:center;padding:12px 8px;">
+          <div style="font-size:26px;font-weight:800;color:var(--purple-light);">3</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;">Marques</div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:7px;">Thématiques couvertes</h3>
+      <div class="tags" style="margin-bottom:12px;">
+        <span class="tag">Sécurité & authentification</span>
+        <span class="tag">Virements SEPA</span>
+        <span class="tag">Carte Mastercard</span>
+        <span class="tag">Avance 100€</span>
+        <span class="tag">CAF / RSA / aides sociales</span>
+        <span class="tag">Sous-comptes projet</span>
+        <span class="tag">Réclamations</span>
+        <span class="tag">Fraude & phishing</span>
+        <span class="tag">RGPD</span>
+        <span class="tag">Prélèvements</span>
+        <span class="tag">Agrégation comptes</span>
+      </div>
+
+      <div class="alert alert-yellow" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;">2 brouillons à publier</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;font-size:12px;">
+            <li>Pourquoi je ne suis pas éligible à l'avance 100€ ?</li>
+            <li>Comment savoir si je suis éligible à l'avance 100€ ?</li>
+          </ul>
+          Sujets fréquents — à publier pour déflection automatique.
+        </div>
+      </div>
+
+      <div class="alert alert-blue">
+        <div class="alert-title" style="font-size:11px;">Help Center multi-marques</div>
+        <div class="alert-body">Les 3 marques ont des domaines dédiés (faq.noelse.com, faqpro.noelse.com, faq.afonepaiement.com). Vérifier que les articles sont bien répartis par marque et non tous sur Noelse B2C.</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px;">Intelligence Artificielle</h3>
+
+      <div class="alert alert-green" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;">AI Copilot actif — 2 288 tickets traités</div>
+        <div class="alert-body">Le tag <code style="background:rgba(255,255,255,.1);padding:1px 4px;border-radius:3px;">agent_copilot_enabled</code> est présent sur 2 288 tickets. Le trigger d'activation est ON. Bonne adoption.</div>
+      </div>
+
+      <div class="alert alert-indigo" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;">Champs IA configurés</div>
+        <div class="alert-body">Intent, Intent confidence, Language, Language confidence, Sentiment, Sentiment confidence, Résumé — l'IA Zendesk est bien configurée pour la qualification automatique des tickets.</div>
+      </div>
+
+      <div class="alert alert-orange" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;">GenAI : 2 automations configurées mais OFF</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;font-size:12px;">
+            <li>[GenAI] Rappel via réponse automatique avec l'IA générative</li>
+            <li>[GenAI] Résolution via réponse automatique avec l'IA générative</li>
+          </ul>
+          Prêtes à être activées — tester sur un groupe ou une catégorie de tickets en premier.
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:7px;margin-top:4px;">Top tags (signaux qualité)</h3>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;">
+          <span style="min-width:110px;">particulier</span>
+          <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:100%;background:var(--purple);"></div></div>
+          <span style="color:rgba(255,255,255,.4);min-width:32px;text-align:right;">12 359</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;">
+          <span style="min-width:110px;">agent_replied</span>
+          <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:95%;background:var(--blue);"></div></div>
+          <span style="color:rgba(255,255,255,.4);min-width:32px;text-align:right;">11 773</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;">
+          <span style="min-width:110px;">canal_email</span>
+          <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:73%;background:var(--teal);"></div></div>
+          <span style="color:rgba(255,255,255,.4);min-width:32px;text-align:right;">8 981</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;">
+          <span style="min-width:110px;">professionnel</span>
+          <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:52%;background:var(--green);"></div></div>
+          <span style="color:rgba(255,255,255,.4);min-width:32px;text-align:right;">6 455</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;">
+          <span style="min-width:110px;color:#fca5a5;">sentiment négatif ⚠</span>
+          <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:28%;background:var(--red);"></div></div>
+          <span style="color:rgba(255,255,255,.4);min-width:32px;text-align:right;">3 452</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SLIDE 10 — PLAN D'ACTION ═════════════════════════════ -->
+<div class="slide" id="slide-10">
+  <div class="slide-label">Slide 10 — Plan d'action</div>
+  <h2>Feuille de route priorisée</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:rgba(239,68,68,.2);border:2px solid var(--red);color:#fca5a5;">S1</div>
+      <div class="timeline-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <strong style="font-size:13px;">Semaine 1 — Corrections critiques</strong>
+          <span class="badge badge-red" style="font-size:9px;">Urgent · ~3h</span>
+        </div>
+        <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;font-size:12px;color:rgba(255,255,255,.8);">
+          <li>Corriger le filtre SLA → supprimer la condition "statut = Nouveau"</li>
+          <li>Réactiver le statut "En pause" (On Hold)</li>
+          <li>Désactiver le compte test "FOUAD" + supprimer triggers de test</li>
+          <li>Réactiver les triggers de notification d'assignation agent/groupe</li>
+          <li>Analyser les tickets mauvais CSAT (extraire les 1 526 scores négatifs par agent, type, canal)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:rgba(249,115,22,.2);border:2px solid var(--orange);color:#fdba74;">S2</div>
+      <div class="timeline-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <strong style="font-size:13px;">Semaine 2 — Qualité & Processus</strong>
+          <span class="badge badge-orange" style="font-size:9px;">Important · ~4h</span>
+        </div>
+        <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;font-size:12px;color:rgba(255,255,255,.8);">
+          <li>Réactiver automations relance tickets en attente (24h, 5 jours)</li>
+          <li>Supprimer les doublons : apps Jira, champs Shopify, macros Facture</li>
+          <li>Activer les métriques SLA secondaires en business hours</li>
+          <li>Publier les 2 articles en brouillon (éligibilité avance 100€)</li>
+          <li>Plan d'action CSAT basé sur l'analyse de S1</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:rgba(234,179,8,.2);border:2px solid var(--yellow);color:#fde047;">M1</div>
+      <div class="timeline-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <strong style="font-size:13px;">Mois 1 — Optimisation</strong>
+          <span class="badge badge-yellow" style="font-size:9px;">Amélioration · ~1 jour</span>
+        </div>
+        <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;font-size:12px;color:rgba(255,255,255,.8);">
+          <li>Créer une 2e politique SLA pour les tickets B2B (Priority Support)</li>
+          <li>Activer les formulaires Afone Paiement et Support Pro si pertinent</li>
+          <li>Activer la Collaboration (notes internes inter-équipes)</li>
+          <li>Corriger la faute "Affecation" → "Affectation" dans les vues</li>
+          <li>Renommer AM10 "Test Raphaël" → nom définitif ou supprimer</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:rgba(34,197,94,.2);border:2px solid var(--green);color:#86efac;">T1</div>
+      <div class="timeline-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <strong style="font-size:13px;">Trimestre 1 — Automatisation avancée</strong>
+          <span class="badge badge-green" style="font-size:9px;">Optimisation · ~2 jours</span>
+        </div>
+        <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;font-size:12px;color:rgba(255,255,255,.8);">
+          <li>Activer les automations GenAI sur périmètre test (ex : questions FAQ simples)</li>
+          <li>Mettre en place un plan de récupération CSAT (taux réponse : 10,3%)</li>
+          <li>Créer des politiques SLA différenciées B2C / B2B / Priority</li>
+          <li>Activer la CAF automation (versements) si saisonnalité identifiée</li>
+          <li>Déployer Zendesk Explore pour suivi CSAT / SLA par agent et canal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 11 — OPPORTUNITÉS ══════════════════════════════ -->
+<div class="slide" id="slide-11">
+  <div class="slide-label">Slide 11 — Opportunités & Flux recommandés</div>
+  <h2>3 flux prioritaires à fort impact</h2>
+
+  <div class="grid grid-3" style="gap:12px;margin-bottom:16px;">
+    <div class="card">
+      <div style="font-size:22px;margin-bottom:7px;">📉</div>
+      <h3 style="font-size:13px;color:var(--purple-light);margin-bottom:7px;">Flux 1 — Récupération CSAT négatif</h3>
+      <p style="font-size:12px;line-height:1.6;">
+        57% de notes négatives = signal d'alarme. Mettre en place un flux dédié pour les scores &lt;3 : escalade automatique vers un superviseur, rappel client dans les 24h, tag de suivi.
+        <br><br><strong>Impact estimé :</strong> +10-15 pts de satisfaction en 3 mois.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="font-size:22px;margin-bottom:7px;">🤖</div>
+      <h3 style="font-size:13px;color:var(--purple-light);margin-bottom:7px;">Flux 2 — GenAI sur questions FAQ</h3>
+      <p style="font-size:12px;line-height:1.6;">
+        Les automations GenAI sont configurées mais OFF. Les articles HC couvrent des sujets très récurrents (avance 100€, virements, CAF). Activer en mode test sur le groupe Support Particuliers.
+        <br><br><strong>Impact estimé :</strong> déflection de 15-20% des tickets simples.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="font-size:22px;margin-bottom:7px;">🏦</div>
+      <h3 style="font-size:13px;color:var(--purple-light);margin-bottom:7px;">Flux 3 — Routage CAF / aides sociales</h3>
+      <p style="font-size:12px;line-height:1.6;">
+        Le trigger "CAF – Message automatique période de versement" est OFF. Avec les dates de versement CAF documentées dans le HC, un message automatique en période de versement réduirait les tickets entrants de janvier, avril, juillet.
+        <br><br><strong>Impact :</strong> pic de volume absorbé automatiquement.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:10px;">Fonctionnalités à exploiter</h3>
+  <div class="grid grid-2" style="gap:10px;">
+    <div class="alert alert-indigo">
+      <div class="alert-title" style="font-size:12px;">Collaboration inter-équipes</div>
+      <div class="alert-body">La Collaboration est désactivée. Avec 18 groupes (Compliance, RSSI, Produit, IT…), activer les notes internes partagées faciliterait les escalades complexes sans changer de canal.</div>
+    </div>
+    <div class="alert alert-blue">
+      <div class="alert-title" style="font-size:12px;">2e politique SLA — Priority Support B2B</div>
+      <div class="alert-body">Une seule politique SLA pour 3 marques et 2 segments (B2C + B2B). Créer une politique dédiée Priority Support avec des SLA plus stricts (1ère réponse 30min pour Urgent).</div>
+    </div>
+    <div class="alert alert-green">
+      <div class="alert-title" style="font-size:12px;">Backlogs non affectés</div>
+      <div class="alert-body">L'automation "Récupération backlog pro/particuliers" est OFF. La réactiver permettrait de redistribuer automatiquement les tickets non affectés après un délai défini.</div>
+    </div>
+    <div class="alert alert-yellow">
+      <div class="alert-title" style="font-size:12px;">Tracking résiliation (churn signal)</div>
+      <div class="alert-body">La vue "Résiliation" est active et des macros dédiées existent. Configurer un rapport Explore sur le volume de résiliations par mois pour identifier les tendances churn.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SLIDE 12 — RÉSUMÉ & CONTACT ══════════════════════════ -->
+<div class="slide" id="slide-12">
+  <div class="slide-label">Slide 12 — Résumé exécutif</div>
+  <h2>Checklist complète</h2>
+
+  <div class="grid grid-2" style="gap:12px;flex:1;">
+    <div>
+      <div class="alert alert-red" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🔴 Critique — Cette semaine</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;display:flex;flex-direction:column;gap:4px;font-size:12px;">
+            <li>☐ Analyser les 1 526 CSAT négatifs et lancer plan d'action</li>
+            <li>☐ Corriger le filtre SLA (retirer condition statut = Nouveau)</li>
+            <li>☐ Réactiver le statut "En pause" (On Hold)</li>
+            <li>☐ Désactiver le compte test FOUAD</li>
+            <li>☐ Réactiver notifications assignation agents</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert alert-orange" style="margin-bottom:8px;">
+        <div class="alert-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🟠 Important — 2 semaines</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;display:flex;flex-direction:column;gap:4px;font-size:12px;">
+            <li>☐ Réactiver automations relance tickets en attente</li>
+            <li>☐ Supprimer doublons Jira, Shopify, macros Facture</li>
+            <li>☐ Activer SLA secondary metrics en business hours</li>
+            <li>☐ Publier les 2 articles brouillon (avance 100€)</li>
+            <li>☐ Supprimer triggers de test (AM10, Test Typologie)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert alert-yellow">
+        <div class="alert-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🟡 Optimisation — Mois 1</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;display:flex;flex-direction:column;gap:4px;font-size:12px;">
+            <li>☐ Créer SLA dédié Priority Support / B2B</li>
+            <li>☐ Activer Collaboration (notes internes)</li>
+            <li>☐ Corriger faute "Affecation" dans les vues</li>
+            <li>☐ Réactiver automation "Réponse requise"</li>
+            <li>☐ Tester automations GenAI sur un groupe restreint</li>
+            <li>☐ Activer trigger CAF (versements automatiques)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="alert alert-green">
+        <div class="alert-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">✅ Points forts à valoriser</div>
+        <div class="alert-body">
+          <ul style="padding-left:12px;display:flex;flex-direction:column;gap:3px;font-size:12px;">
+            <li>Structure 18 groupes — modèle de référence</li>
+            <li>Horaires corrects Lun-Ven 09:00-18:00</li>
+            <li>Skill-based routing activé</li>
+            <li>Help Center très complet (100 articles)</li>
+            <li>Flux CSAT → Trustpilot configuré</li>
+            <li>AI Copilot déjà actif (2 288 tickets)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:auto;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.35);">
+        <h3 style="color:var(--purple-light);margin-bottom:9px;font-size:14px;">Questions ou suite de mission ?</h3>
+        <p style="font-size:12px;line-height:1.8;color:rgba(255,255,255,.8);">
+          Stéphanie<br>
+          <strong>OmyCare Consulting</strong><br>
+          Spécialiste Zendesk · Configuration & Optimisation
+        </p>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="badge badge-purple">Audit</span>
+          <span class="badge badge-purple">Configuration</span>
+          <span class="badge badge-purple">Formation</span>
+          <span class="badge badge-purple">Automatisation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav class="nav">
+  <button onclick="navigate(-1)">← Préc.</button>
+  <div class="dots" id="dots"></div>
+  <button onclick="navigate(1)">Suiv. →</button>
+  <div class="slide-counter" id="counter"></div>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  const dotsEl = document.getElementById('dots');
+  slides.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsEl.children[current].classList.remove('active');
+    current = Math.max(0, Math.min(total-1, n));
+    slides[current].classList.add('active');
+    dotsEl.children[current].classList.add('active');
+    document.getElementById('counter').textContent = (current+1)+' / '+total;
+    slides[current].scrollTop = 0;
+  }
+  function navigate(dir) { goTo(current+dir); }
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); navigate(1); }
+    if (e.key==='ArrowLeft') { e.preventDefault(); navigate(-1); }
+  });
+  let tx=0;
+  document.addEventListener('touchstart', e => tx=e.touches[0].clientX);
+  document.addEventListener('touchend', e => { const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) navigate(dx<0?1:-1); });
+  goTo(0);
+</script>
+</body>
+</html>
