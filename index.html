@@ -121,48 +121,47 @@
 
   .brand-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
 
+  .logo-fixed { position: fixed; top: 18px; left: 22px; z-index: 200; height: 32px; pointer-events: none; }
+  .cover-centered { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; padding: 56px 20px 20px; gap: 0; }
+  .cover-pill-new { display: inline-flex; align-items: center; gap: 8px; background: rgba(99,102,241,.18); border: 1px solid rgba(99,102,241,.4); border-radius: 99px; padding: 9px 22px; font-size: 11px; font-weight: 700; color: var(--purple-light); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 28px; }
+  .cstat-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
+  .cstat-item { display: flex; flex-direction: column; align-items: center; padding: 0 32px; }
+  .cstat-item + .cstat-item { border-left: 1px solid rgba(255,255,255,.12); }
+  .cstat-item .cn { font-size: clamp(30px,4vw,50px); font-weight: 800; color: var(--purple-light); line-height: 1; }
+  .cstat-item .cl { font-size: 10px; color: rgba(255,255,255,.38); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 6px; }
+  .merci-info { display: flex; align-items: stretch; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; overflow: hidden; margin-top: 32px; }
+  .merci-info-col { padding: 18px 36px; text-align: center; }
+  .merci-info-col + .merci-info-col { border-left: 1px solid rgba(255,255,255,.1); }
+  .merci-info-col .mi-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.3); text-transform: uppercase; margin-bottom: 6px; }
+  .merci-info-col .mi-val { font-size: 14px; font-weight: 700; }
   @media (max-width: 768px) {
     .slide { padding: 20px 16px 68px; }
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     h1 { font-size: 24px; } h2 { font-size: 18px; }
     th.hide-m, td.hide-m { display: none; }
+    .cstat-row { gap: 16px; } .cstat-item { border: none !important; padding: 0 16px; }
+    .merci-info { flex-direction: column; } .merci-info-col + .merci-info-col { border-left: none; border-top: 1px solid rgba(255,255,255,.1); }
   }
 </style>
 </head>
 <body>
+<img src="omycarelogo.png" alt="OmyCare" class="logo-fixed">
 <div class="deck" id="deck">
 
 <!-- ═══════════════════════════════ SLIDE 1 — COVER ═══════════════════════════════ -->
 <div class="slide active" id="slide-1">
-  <div class="cover-brand">💳 Audit Zendesk — Rapport complet</div>
-  <h1 class="cover-title">Compte <span>Noelse</span></h1>
-  <div class="divider"></div>
-  <p class="cover-sub">Diagnostic approfondi · Août 2026 · Noelse SAS · noelsepay.zendesk.com</p>
-
-  <div class="cover-stats">
-    <div class="cover-stat"><div class="n">37 701</div><div class="l">Tickets</div></div>
-    <div class="cover-stat"><div class="n">57</div><div class="l">Triggers</div></div>
-    <div class="cover-stat"><div class="n">69</div><div class="l">Macros</div></div>
-    <div class="cover-stat"><div class="n">30</div><div class="l">Agents</div></div>
-    <div class="cover-stat"><div class="n">3</div><div class="l">Marques</div></div>
-    <div class="cover-stat"><div class="n">18</div><div class="l">Groupes</div></div>
-    <div class="cover-stat"><div class="n">100</div><div class="l">Articles HC</div></div>
-  </div>
-
-  <div style="margin-top:auto;padding-top:32px;">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Noelse B2C</span>
-      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Noelse Professionnels</span>
-      <span style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--purple-light);">Afone Paiement</span>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <span class="badge badge-red">🔴 3 urgences critiques</span>
-      <span class="badge badge-orange">🟠 4 points importants</span>
-      <span class="badge badge-yellow">🟡 5 points à optimiser</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
-      <img src="omycarelogo.png" alt="OmyCare" style="height:28px;opacity:.85;">
-      <span style="font-size:11px;color:rgba(255,255,255,.35);">Compte créé nov. 2025</span>
+  <div class="cover-centered">
+    <div class="cover-pill-new">🔍 Audit Complet · Août 2026</div>
+    <h1 style="font-size:clamp(36px,5vw,62px);font-weight:800;line-height:1.05;margin-bottom:6px;">Audit Zendesk</h1>
+    <h1 style="font-size:clamp(36px,5vw,62px);font-weight:800;color:var(--purple-light);line-height:1.05;margin-bottom:14px;">Noelse</h1>
+    <p style="font-size:15px;color:rgba(255,255,255,.38);letter-spacing:.5px;">noelsepay.zendesk.com</p>
+    <div class="cstat-row">
+      <div class="cstat-item"><div class="cn">37 701</div><div class="cl">Tickets total</div></div>
+      <div class="cstat-item"><div class="cn">3</div><div class="cl">Marques</div></div>
+      <div class="cstat-item"><div class="cn">57</div><div class="cl">Triggers</div></div>
+      <div class="cstat-item"><div class="cn">69</div><div class="cl">Macros</div></div>
+      <div class="cstat-item"><div class="cn">18</div><div class="cl">Groupes</div></div>
+      <div class="cstat-item"><div class="cn">100</div><div class="cl">Articles FAQ</div></div>
     </div>
   </div>
 </div>
@@ -912,20 +911,29 @@
         </div>
       </div>
 
-      <div class="card" style="margin-top:auto;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.35);">
-        <h3 style="color:var(--purple-light);margin-bottom:9px;font-size:14px;">Questions ou suite de mission ?</h3>
-        <img src="omycarelogo.png" alt="OmyCare" style="height:32px;margin-bottom:10px;display:block;">
-        <p style="font-size:12px;line-height:1.8;color:rgba(255,255,255,.8);">
-          Stéphanie<br>
-          Spécialiste Zendesk · Configuration & Optimisation
-        </p>
-        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-          <span class="badge badge-purple">Audit</span>
-          <span class="badge badge-purple">Configuration</span>
-          <span class="badge badge-purple">Formation</span>
-          <span class="badge badge-purple">Automatisation</span>
-        </div>
-      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ SLIDE 13 — MERCI ════════════════════════════════ -->
+<div class="slide" id="slide-13">
+  <div class="cover-centered">
+    <div style="font-size:54px;margin-bottom:20px;">🙏</div>
+    <h1 style="font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.15;margin-bottom:20px;">
+      Merci <span style="color:var(--purple-light);">pour votre<br>confiance</span>
+    </h1>
+    <p style="font-size:15px;color:rgba(255,255,255,.5);max-width:580px;line-height:1.9;text-align:center;">
+      Ce rapport est la base de travail pour optimiser votre compte Zendesk.<br>
+      Nous restons disponibles pour toute question ou pour mettre en œuvre<br>ces recommandations ensemble.
+    </p>
+    <div class="merci-info">
+      <div class="merci-info-col"><div class="mi-label">Auditeur</div><div class="mi-val">Stéphanie · OmyCare</div></div>
+      <div class="merci-info-col"><div class="mi-label">Contact</div><div class="mi-val">stephanie@omycare.fr</div></div>
+      <div class="merci-info-col"><div class="mi-label">Date</div><div class="mi-val">Août 2026</div></div>
+    </div>
+    <div style="margin-top:18px;background:rgba(99,102,241,.13);border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:18px 44px;max-width:520px;width:100%;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:7px;">Prochaine étape</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.85);">Validation des priorités S1 et planification de la mise en œuvre</div>
     </div>
   </div>
 </div>
