@@ -438,6 +438,7 @@
               <tr><td><span class="badge badge-green">ON</span></td><td>CSAT positif → Trustpilot</td></tr>
               <tr><td><span class="badge badge-green">ON</span></td><td>Demander CSAT (automatisme système)</td></tr>
               <tr><td><span class="badge badge-green">ON</span></td><td>Demander CSAT — tickets &lt; 1 mois</td></tr>
+              <tr><td><span class="badge badge-red">OFF ⚠</span></td><td>CSAT messagerie inactif</td></tr>
               <tr><td><span class="badge badge-red">OFF ⚠</span></td><td>Notification en attente 24h</td></tr>
               <tr><td><span class="badge badge-red">OFF ⚠</span></td><td>Notification en attente 5 jours</td></tr>
               <tr><td><span class="badge badge-red">OFF ⚠</span></td><td>Réponse requise</td></tr>
@@ -450,6 +451,17 @@
         <div class="alert alert-indigo">
           <div class="alert-title">IA Générative — 2 automations présentes mais OFF</div>
           <div class="alert-body">Les automations "[GenAI] Rappel" et "[GenAI] Résolution" sont configurées mais désactivées. À activer progressivement sur un périmètre test (ex : questions FAQ simples) pour réduire la charge des agents.</div>
+        </div>
+        <div class="alert alert-orange" style="margin-top:8px;">
+          <div class="alert-title">⚠ Triggers à analyser en priorité</div>
+          <div class="alert-body">
+            <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
+              <li>Trigger <strong>[Priorité] Elevée</strong> (#41367084964881) — non paramétré, à configurer</li>
+              <li>MARQUEUR "Commentaire <em>public agent</em> détecté" — vérifier l'impact sur le flux</li>
+              <li>Les priorités tickets pourraient être définies via le champ "Motif de contact" pour un meilleur usage du SLA</li>
+              <li>Trigger "Réponse client → Statut Ouvert" — objectif à clarifier</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -569,6 +581,10 @@
               <tr><td>Growth / Sales</td><td><span class="badge badge-green">Commercial</span></td></tr>
             </tbody>
           </table>
+          <div class="alert alert-orange" style="margin-top:10px;">
+            <div class="alert-title" style="font-size:11px;">⚠ Groupes avec 0 membres</div>
+            <div class="alert-body">Plusieurs groupes sont vides (0 membres). Les groupes sans membres causent des erreurs de routage silencieuses — les tickets peuvent y être affectés sans être traités. Nettoyer ou supprimer les groupes inutilisés.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -611,6 +627,20 @@
         <div class="alert alert-orange">
           <div class="alert-title" style="font-size:11px;">⚠ 2 champs "Shopify order ID" en doublon</div>
           <div class="alert-body">Deux champs integer identiques créent une ambiguïté. Identifier lequel est utilisé et supprimer l'autre.</div>
+        </div>
+        <div class="alert alert-yellow" style="margin-top:8px;">
+          <div class="alert-title" style="font-size:11px;">🟡 Champs ticket d'origine inconnue</div>
+          <div class="alert-body">
+            <ul style="padding-left:12px;display:flex;flex-direction:column;gap:3px;">
+              <li><strong>"Canal de recepcion"</strong> — utilité de ce champ ? Pourquoi ne pas utiliser le champ natif Zendesk pour le canal ?</li>
+              <li><strong>"Address destination"</strong> — objectif de ce champ non documenté ?</li>
+            </ul>
+            Ces champs apparaissent dans les formulaires mais leur usage n'est pas clair. À documenter ou supprimer.
+          </div>
+        </div>
+        <div class="alert alert-yellow" style="margin-top:8px;">
+          <div class="alert-title" style="font-size:11px;">🟡 Formulaire web non connecté à Zendesk · Pas de champs conditionnels</div>
+          <div class="alert-body">Le formulaire web (site Noelse) ne semble pas connecté directement à Zendesk. De plus, les formulaires ne comportent pas de logique conditionnelle — tous les champs s'affichent à tous les clients, ce qui génère des tickets avec des champs inutiles remplis (ou vides).</div>
         </div>
       </div>
 
@@ -721,6 +751,14 @@
       <div>
         <div class="card" style="margin-bottom:10px;">
           <div class="section-label">Intelligence Artificielle</div>
+          <div class="alert alert-red" style="margin-bottom:8px;">
+            <div class="alert-title" style="font-size:11px;">🔴 Pas de labels sur les articles FAQ</div>
+            <div class="alert-body">Aucun label n'est associé aux articles du Help Center. Les labels sont <strong>essentiels pour que l'IA Zendesk</strong> retrouve et suggère les bons articles. Sans labels, le AI Copilot et l'AI Agent ne peuvent pas qualifier correctement les tickets avec les articles pertinents.</div>
+          </div>
+          <div class="alert alert-orange" style="margin-bottom:8px;">
+            <div class="alert-title" style="font-size:11px;">🟠 Copilot AI — 90 recommandations à analyser</div>
+            <div class="alert-body">Le panneau Copilot AI contient 90 recommandations non traitées. Ces suggestions portent sur l'amélioration des réponses, la détection d'intentions et l'optimisation du routage. À planifier en équipe pour prioriser les gains les plus impactants.</div>
+          </div>
           <div class="alert alert-green" style="margin-bottom:8px;">
             <div class="alert-title" style="font-size:11px;">AI Copilot actif — 2 288 tickets traités</div>
             <div class="alert-body">Le tag <code style="background:#F3F4F6;padding:1px 4px;border-radius:3px;color:#374151;">agent_copilot_enabled</code> est présent sur 2 288 tickets. Le trigger d'activation est ON. Bonne adoption.</div>
@@ -905,8 +943,94 @@
   </div>
 </div>
 
-<!-- ══════════════════ SLIDE 12 — RÉSUMÉ ══════════════════ -->
+<!-- ══════════════════ SLIDE 12 — OBJECTIFS ══════════════════ -->
 <div class="slide" id="slide-12">
+  <div class="slide-header">
+    <h2>🎯 Objectifs — Points d'analyse détaillée</h2>
+    <span class="sh-badge">3 DOMAINES ANALYSÉS</span>
+  </div>
+  <div class="slide-body" style="padding:14px 18px 72px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;height:100%;">
+
+      <!-- Col 1 : Structure & Sécurité -->
+      <div style="border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;">
+        <div style="padding:11px 14px;background:linear-gradient(135deg,#6D28D9 0%,#A855F7 100%);flex-shrink:0;">
+          <div style="font-size:12px;font-weight:800;color:#fff;">Structure &amp; Sécurité</div>
+        </div>
+        <div style="background:#fff;padding:11px 14px;font-size:11px;color:#374151;display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;">Mail</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Ne permet pas les tickets anonymes</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Email template</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟢</span><span>Très bon template ✓</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Vues</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Créer des dossiers pour mieux organiser</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟢</span><span>Émoticônes pour reconnaissance rapide ✓</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Groupes</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Beaucoup de groupes avec 0 membres</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Canaux</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>Pas d'IA advanced agent</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>❓</span><span>Pas de widget dans le FAQ — utilisé ?</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>❓</span><span>Facebook connecté mais sans DM ni commentaires activés</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Formulaires</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>❓</span><span>Formulaire web non connecté à Zendesk</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>❓</span><span>Pas de champs conditionnels</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Trop de champs inutiles sur le ticket</span></div>
+        </div>
+      </div>
+
+      <!-- Col 2 : Processus & Automation -->
+      <div style="border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;">
+        <div style="padding:11px 14px;background:linear-gradient(135deg,#BE185D 0%,#F472B6 100%);flex-shrink:0;">
+          <div style="font-size:12px;font-weight:800;color:#fff;">Processus &amp; Automation</div>
+        </div>
+        <div style="background:#fff;padding:11px 14px;font-size:11px;color:#374151;display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;">Triggers</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>[Priorité] Elevée — à paramétrer (#41367084964881)</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Priorités basées sur champ "motif" pour un meilleur SLA</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>MARQUEUR — Commentaire <em>public agent</em> détecté : à vérifier</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Ticket Invoice/Mastercard : trigger avec juste un tag — objectif ?</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Account manager : champ lookup org ≠ dropdown utilisateurs finaux</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Marqueur TPE → affectation "ANY" non correctement implémenté</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Réponse client → Statut Ouvert : objectif de ce trigger ?</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Automations</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Bump bump (résolu) inactif</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>CSAT messagerie inactif</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Champs ticket</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Canal de recepcion" — utilité ? Remplacer par champ natif</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Address destination" — objectif de ce champ ?</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">SLA</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Modifier le titre de la politique SLA</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Macros</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Créer des sous-dossiers avec "::"</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Copilot</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>90 recommandations AI à analyser et implémenter</span></div>
+        </div>
+      </div>
+
+      <!-- Col 3 : Management & Qualité -->
+      <div style="border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;">
+        <div style="padding:11px 14px;background:linear-gradient(135deg,#7C3AED 0%,#F97316 100%);flex-shrink:0;">
+          <div style="font-size:12px;font-weight:800;color:#fff;">Management &amp; Qualité opérationnelle</div>
+        </div>
+        <div style="background:#fff;padding:11px 14px;font-size:11px;color:#374151;display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;">Explore</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Pas de dashboard personnalisé (champs / statuts personnalisés)</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Knowledge base</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>Pas de labels sur les articles FAQ — essentiel pour que l'IA fonctionne</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Side conversations</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>❓</span><span>Pas de conversations secondaires configurées</span></div>
+          <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Statuts</div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>On-hold inactif (→ voir C3)</span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Statut "En cours" actif — est-il vraiment nécessaire ?</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 13 — RÉSUMÉ ══════════════════ -->
+<div class="slide" id="slide-13">
   <div class="slide-header">
     <h2>✅ Résumé exécutif — Checklist complète</h2>
     <span class="sh-badge">RÉSUMÉ EXÉCUTIF</span>
@@ -923,6 +1047,8 @@
               <li>☐ Réactiver le statut "En pause" (On Hold)</li>
               <li>☐ Désactiver le compte test FOUAD</li>
               <li>☐ Réactiver notifications assignation agents</li>
+              <li>☐ Réactiver l'automation CSAT messagerie</li>
+              <li>☐ Ajouter des labels sur tous les articles FAQ (critique pour l'IA)</li>
             </ul>
           </div>
         </div>
@@ -936,6 +1062,8 @@
               <li>☐ Activer SLA secondary metrics en business hours</li>
               <li>☐ Publier les 2 articles brouillon (avance 100€)</li>
               <li>☐ Supprimer triggers de test (AM10, Test Typologie)</li>
+              <li>☐ Nettoyer les groupes avec 0 membres</li>
+              <li>☐ Analyser les 90 recommandations Copilot AI</li>
             </ul>
           </div>
         </div>
@@ -975,8 +1103,8 @@
   </div>
 </div>
 
-<!-- ══════════════════ SLIDE 13 — MERCI ══════════════════ -->
-<div class="slide slide-dark" id="slide-13">
+<!-- ══════════════════ SLIDE 14 — MERCI ══════════════════ -->
+<div class="slide slide-dark" id="slide-14">
   <div class="cover-centered">
     <div style="font-size:54px;margin-bottom:20px;">🙏</div>
     <h1 style="font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.15;margin-bottom:20px;color:#fff;">
