@@ -518,6 +518,10 @@
       <div class="alert-title">📋 Correction SLA recommandée</div>
       <div class="alert-body">Admin Center → Objets et règles → SLA → Modifier la politique → Supprimer la condition "Statut = Nouveau" (ou remplacer par une condition sur la marque / le canal pour une logique plus fine).</div>
     </div>
+    <div class="alert alert-yellow" style="margin-top:10px;">
+      <div class="alert-title">🟡 Renommer la politique SLA</div>
+      <div class="alert-body">"Définir le délai avant première réponse" est le nom par défaut Zendesk. Le renommer (ex : "SLA Standard Noelse") facilite la lecture dans Explore et rend les rapports immédiatement compréhensibles.</div>
+    </div>
   </div>
 </div>
 
@@ -553,6 +557,10 @@
           <div class="alert alert-yellow" style="margin-top:10px;">
             <div class="alert-title" style="font-size:11px;">⚠ Faute de frappe</div>
             <div class="alert-body">"<strong>Affecation</strong> automatique" → "<strong>Affectation</strong>" (vue inactive)</div>
+          </div>
+          <div class="alert alert-yellow" style="margin-top:8px;">
+            <div class="alert-title" style="font-size:11px;">🟡 Créer des dossiers pour organiser les vues</div>
+            <div class="alert-body">Avec 36 vues (21 actives), créer des dossiers de vues (ex : "B2C", "B2B", "Supervision", "Spécialisé") améliorerait la navigation des agents et réduirait les erreurs d'accès.</div>
           </div>
         </div>
       </div>
@@ -683,6 +691,15 @@
             <span class="tag">Interface TPE</span>
             <span class="tag">Five Most Recent</span>
           </div>
+          <div class="alert alert-yellow" style="margin-top:10px;">
+            <div class="alert-title" style="font-size:11px;">❓ Canaux à vérifier</div>
+            <div class="alert-body">
+              <ul style="padding-left:12px;display:flex;flex-direction:column;gap:3px;">
+                <li><strong>Facebook</strong> connecté mais sans DM ni commentaires activés — quel était l'objectif de cette intégration ?</li>
+                <li><strong>Web Widget</strong> non présent sur faq.noelse.com — est-il utilisé ailleurs ? Confirmer si intentionnel.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -749,6 +766,10 @@
       <div>
         <div class="card" style="margin-bottom:10px;">
           <div class="section-label">Intelligence Artificielle</div>
+          <div class="alert alert-red" style="margin-bottom:8px;">
+            <div class="alert-title" style="font-size:11px;">🔴 IA Advanced Agent non activé</div>
+            <div class="alert-body">L'IA Advanced Agent (résolution autonome de tickets simples) n'est pas activé. Avec 37 701 tickets et des sujets récurrents bien documentés dans le HC, ce serait un levier fort de déflection automatique.</div>
+          </div>
           <div class="alert alert-red" style="margin-bottom:8px;">
             <div class="alert-title" style="font-size:11px;">🔴 Pas de labels sur les articles FAQ</div>
             <div class="alert-body">Aucun label n'est associé aux articles du Help Center. Les labels sont <strong>essentiels pour que l'IA Zendesk</strong> retrouve et suggère les bons articles. Sans labels, le AI Copilot et l'AI Agent ne peuvent pas qualifier correctement les tickets avec les articles pertinents.</div>
@@ -861,6 +882,9 @@
             <li>Activer la Collaboration (notes internes inter-équipes)</li>
             <li>Corriger la faute "Affecation" → "Affectation" dans les vues</li>
             <li>Renommer AM10 "Test Raphaël" → nom définitif ou supprimer</li>
+            <li>Organiser les macros en sous-dossiers "::" et compléter les macros incomplètes (sans actions)</li>
+            <li>Créer des dossiers de vues pour segmenter B2C / B2B / Supervision</li>
+            <li>Renommer la politique SLA (nom par défaut → "SLA Standard Noelse")</li>
           </ul>
         </div>
       </div>
@@ -922,8 +946,8 @@
     <h3 style="margin-bottom:10px;">Fonctionnalités à exploiter</h3>
     <div class="grid grid-2" style="gap:10px;">
       <div class="alert alert-indigo">
-        <div class="alert-title" style="font-size:12px;">Collaboration inter-équipes</div>
-        <div class="alert-body">La Collaboration est désactivée. Avec 18 groupes (Compliance, RSSI, Produit, IT…), activer les notes internes partagées faciliterait les escalades complexes.</div>
+        <div class="alert-title" style="font-size:12px;">Collaboration & Side conversations</div>
+        <div class="alert-body">La Collaboration est désactivée et les Side conversations (discussions latérales avec prestataires, équipes internes) ne sont pas configurées. Avec 18 groupes (Compliance, RSSI, Produit, IT…), ces deux fonctionnalités faciliteraient les escalades complexes sans quitter le ticket.</div>
       </div>
       <div class="alert alert-blue">
         <div class="alert-title" style="font-size:12px;">2e politique SLA — Priority Support B2B</div>
