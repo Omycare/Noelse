@@ -250,7 +250,7 @@
       <div class="card">
         <div class="section-label">✗ Problèmes détectés</div>
         <ul class="check-list cross-list">
-          <li><strong>CSAT inversé : 57% négatif</strong>, problème de qualité de service</li>
+          <li><strong>CSAT inversé : 57% négatif,</strong> problème de qualité de service</li>
           <li>SLA appliqué uniquement au statut "Nouveau", pas aux autres statuts</li>
           <li>Statut "En pause" (On Hold) désactivé</li>
           <li>Automations de relance "en attente" désactivées</li>
@@ -323,9 +323,9 @@
       <div class="alert-title"><span class="badge badge-orange">C5</span> Automations de relance tickets en attente désactivées</div>
       <div class="alert-body">
         <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
-          <li><strong>OFF</strong> — Notification de demande en attente depuis 24 heures</li>
-          <li><strong>OFF</strong> — Notification de demande en attente depuis 5 jours</li>
-          <li><strong>OFF</strong> — Réponse requise (automation de relance personnalisée)</li>
+          <li><strong>OFF</strong>: Notification de demande en attente depuis 24 heures</li>
+          <li><strong>OFF</strong>: Notification de demande en attente depuis 5 jours</li>
+          <li><strong>OFF</strong>: Réponse requise (automation de relance personnalisée)</li>
         </ul>
         <br>Avec 37 701 tickets, les tickets en attente peuvent rester sans suivi indéfiniment. Risque direct sur la satisfaction client déjà dégradée.
       </div>
@@ -349,7 +349,7 @@
         <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
           <li>2 apps <strong>Jira</strong> installées (IDs 41387085465745 et 43352415051537)</li>
           <li>2 champs <strong>"Shopify order ID"</strong> identiques (integer)</li>
-          <li>2 macros nommées <strong>"Facture"</strong> — confusion potentielle pour les agents</li>
+          <li>2 macros nommées <strong>"Facture"</strong>: confusion potentielle pour les agents</li>
         </ul>
         <br><strong>Action :</strong> Identifier et supprimer les doublons pour éviter les conflits de données.
       </div>
@@ -436,10 +436,11 @@
           <div class="alert-title">⚠ Triggers à analyser en priorité</div>
           <div class="alert-body">
             <ul style="padding-left:14px;display:flex;flex-direction:column;gap:3px;">
-              <li>Trigger <strong>[Priorité] Elevée</strong> (#41367084964881) — non paramétré, à configurer</li>
-              <li>MARQUEUR "Commentaire <em>public agent</em> détecté" — vérifier l'impact sur le flux</li>
+              <li>Trigger <strong>[Priorité] Elevée</strong> (#41367084964881): non paramétré, à configurer</li>
+              <li>MARQUEUR "Commentaire <em>public agent</em> détecté": vérifier l'impact sur le flux</li>
               <li>Les priorités tickets pourraient être définies via le champ "Motif de contact" pour un meilleur usage du SLA</li>
-              <li>Trigger "Réponse client → Statut Ouvert" — objectif à clarifier</li>
+              <li>Trigger "Réponse client → Statut Ouvert": objectif à clarifier</li>
+              <li>Automation "Notification en attente 24hs et 5 jours": recommandé de les garder actifs.</li>
             </ul>
           </div>
         </div>
