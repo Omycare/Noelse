@@ -1043,130 +1043,216 @@
   </div>
 </div>
 
-<!-- ══════════════════ SLIDE 13 — KPI ANALYTIQUE ══════════════════ -->
+<!-- ══════════════════ SLIDE 13 — KPI DASHBOARD ══════════════════ -->
 <div class="slide" id="slide-13">
   <div class="slide-header">
-    <h2>📈 Tableau de Bord KPI — Vision Analytique</h2>
-    <span class="sh-badge">5 DOMAINES · 16 INDICATEURS</span>
+    <h2>📊 Dashboard KPI — Noelse · Analyse Zendesk Explore</h2>
+    <span class="sh-badge">37 701 TICKETS · 9 MOIS</span>
   </div>
-  <div class="slide-body">
+  <div class="slide-body" style="padding:12px 18px 72px;">
 
-    <!-- 4 KPI cards -->
-    <div class="grid grid-4" style="margin-bottom:14px;">
-      <div class="card stat" style="border-top:3px solid #EF4444;">
-        <div style="font-size:9px;font-weight:700;color:#EF4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">CSAT Positif · Actuel</div>
-        <div class="stat-num" style="color:#EF4444;">43%</div>
-        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;80%</span></div>
-        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:43%;background:#EF4444;"></div></div>
+    <!-- ROW 1 : 5 headline numbers -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px;">
+
+      <div class="card stat" style="padding:11px 8px;">
+        <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Total Tickets</div>
+        <div style="font-size:28px;font-weight:800;color:#1E1B4B;line-height:1.1;">37 701</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">en 9 mois · ~135/j</div>
       </div>
-      <div class="card stat" style="border-top:3px solid #F97316;">
-        <div style="font-size:9px;font-weight:700;color:#9A3412;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Taux Réponse CSAT</div>
-        <div class="stat-num" style="color:#F97316;">10,3%</div>
-        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;20%</span></div>
-        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:10%;background:#F97316;"></div></div>
+
+      <div class="card stat" style="padding:11px 8px;border-top:3px solid #EF4444;">
+        <div style="font-size:9px;font-weight:700;color:#EF4444;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">CSAT Positif</div>
+        <div style="font-size:28px;font-weight:800;color:#EF4444;line-height:1.1;">43%</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">cible &gt;80%</div>
       </div>
-      <div class="card stat" style="border-top:3px solid #EAB308;">
-        <div style="font-size:9px;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Sentiment Négatif IA</div>
-        <div class="stat-num" style="color:#EAB308;">9,1%</div>
-        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">3 452 tickets</span></div>
-        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:9%;background:#EAB308;"></div></div>
+
+      <div class="card stat" style="padding:11px 8px;border-top:3px solid #991B1B;">
+        <div style="font-size:9px;font-weight:700;color:#991B1B;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">CSAT Négatif</div>
+        <div style="font-size:28px;font-weight:800;color:#991B1B;line-height:1.1;">57%</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">1 526 mauvaises notes</div>
       </div>
-      <div class="card stat" style="border-top:3px solid #8B5CF6;">
-        <div style="font-size:9px;font-weight:700;color:#5B21B6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Couverture AI Copilot</div>
-        <div class="stat-num" style="color:#8B5CF6;">6,1%</div>
-        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;30%</span></div>
-        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:6%;background:#8B5CF6;"></div></div>
+
+      <div class="card stat" style="padding:11px 8px;border-top:3px solid #F97316;">
+        <div style="font-size:9px;font-weight:700;color:#9A3412;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Taux Réponse CSAT</div>
+        <div style="font-size:28px;font-weight:800;color:#F97316;line-height:1.1;">10,3%</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">cible &gt;20%</div>
       </div>
+
+      <div class="card stat" style="padding:11px 8px;border-top:3px solid #EAB308;">
+        <div style="font-size:9px;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Sentiment Négatif IA</div>
+        <div style="font-size:28px;font-weight:800;color:#EAB308;line-height:1.1;">9,1%</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">3 452 tickets</div>
+      </div>
+
     </div>
 
-    <div class="grid grid-2" style="gap:14px;">
+    <!-- ROW 2 : Donut CSAT + Segment bars -->
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:12px;margin-bottom:12px;">
 
-      <!-- Colonne gauche : Matrice KPI + Plan de mesure -->
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div class="card">
-          <div class="section-label">Matrice KPI recommandée</div>
-          <table>
-            <thead><tr><th>KPI</th><th>Actuel</th><th>Cible</th><th>État</th></tr></thead>
-            <tbody>
-              <tr class="tcat"><td colspan="4">SATISFACTION CLIENT</td></tr>
-              <tr><td>CSAT Score</td><td style="color:#991B1B;font-weight:700;">43%</td><td>&gt;80%</td><td><span class="badge badge-red">Critique</span></td></tr>
-              <tr><td>Taux réponse CSAT</td><td style="color:#991B1B;font-weight:700;">10,3%</td><td>&gt;20%</td><td><span class="badge badge-red">Critique</span></td></tr>
-              <tr><td>Sentiment négatif IA</td><td style="color:#92400E;font-weight:700;">9,1%</td><td>&lt;3%</td><td><span class="badge badge-orange">Élevé</span></td></tr>
-              <tr><td>Score Trustpilot</td><td style="color:#9CA3AF;">n/d</td><td>&gt;4,0</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-              <tr class="tcat"><td colspan="4">DÉLAIS & SLA</td></tr>
-              <tr><td>First Reply Time (FRT)</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&lt;4h</td><td><span class="badge badge-red">Bloqué</span></td></tr>
-              <tr><td>Temps résolution moyen</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&lt;8h</td><td><span class="badge badge-red">Bloqué</span></td></tr>
-              <tr><td>Taux respect SLA</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&gt;90%</td><td><span class="badge badge-red">Bloqué</span></td></tr>
-              <tr class="tcat"><td colspan="4">VOLUME & RÉSOLUTION</td></tr>
-              <tr><td>Tickets / jour</td><td style="font-weight:700;">~135</td><td>référence</td><td><span class="badge badge-purple">Suivi</span></td></tr>
-              <tr><td>FCR (résolution 1er contact)</td><td style="color:#9CA3AF;">n/d</td><td>&gt;75%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-              <tr><td>Taux réouverture tickets</td><td style="color:#9CA3AF;">n/d</td><td>&lt;5%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-              <tr class="tcat"><td colspan="4">PERFORMANCE AGENTS</td></tr>
-              <tr><td>Tickets / agent / jour</td><td style="font-weight:700;">~5</td><td>référence</td><td><span class="badge badge-purple">Suivi</span></td></tr>
-              <tr><td>CSAT par agent</td><td style="color:#9CA3AF;">n/d</td><td>&gt;80%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-              <tr><td>Taux escalade</td><td style="color:#9CA3AF;">n/d</td><td>&lt;10%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-              <tr class="tcat"><td colspan="4">DÉFLEXION & IA</td></tr>
-              <tr><td>Couverture AI Copilot</td><td style="color:#92400E;font-weight:700;">6,1%</td><td>&gt;30%</td><td><span class="badge badge-yellow">Faible</span></td></tr>
-              <tr><td>Taux déflexion FAQ</td><td style="color:#9CA3AF;">n/d</td><td>&gt;15%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
-            </tbody>
-          </table>
-          <div style="font-size:9px;color:#9CA3AF;margin-top:6px;">*SLA filtré sur statut "Nouveau" uniquement → métriques de délai non calculables dans Explore</div>
+      <!-- Donut CSAT -->
+      <div class="card" style="padding:14px;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;align-self:flex-start;">CSAT · 2 675 évaluations</div>
+        <svg viewBox="0 0 120 120" width="140" height="140" style="flex-shrink:0;">
+          <!-- Rouge (57%) plein fond -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#EF4444" stroke-width="16"/>
+          <!-- Vert (43%) par-dessus, départ à 12h -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#22C55E" stroke-width="16"
+            stroke-dasharray="124.28 289.03" stroke-dashoffset="0"
+            transform="rotate(-90 60 60)"/>
+          <!-- Centre -->
+          <circle cx="60" cy="60" r="30" fill="#fff"/>
+          <text x="60" y="57" text-anchor="middle" font-size="17" font-weight="800" fill="#991B1B">43%</text>
+          <text x="60" y="70" text-anchor="middle" font-size="8" fill="#9CA3AF">positif</text>
+        </svg>
+        <div style="display:flex;gap:14px;margin-top:10px;">
+          <div style="text-align:center;">
+            <div style="display:flex;align-items:center;gap:4px;margin-bottom:1px;"><div style="width:8px;height:8px;border-radius:50%;background:#22C55E;"></div><span style="font-size:9px;color:#6B7280;">Positif</span></div>
+            <div style="font-size:17px;font-weight:800;color:#166534;">1 149</div>
+          </div>
+          <div style="width:1px;background:#E5E7EB;"></div>
+          <div style="text-align:center;">
+            <div style="display:flex;align-items:center;gap:4px;margin-bottom:1px;"><div style="width:8px;height:8px;border-radius:50%;background:#EF4444;"></div><span style="font-size:9px;color:#6B7280;">Négatif</span></div>
+            <div style="font-size:17px;font-weight:800;color:#991B1B;">1 526</div>
+          </div>
+          <div style="width:1px;background:#E5E7EB;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:#6B7280;margin-bottom:1px;">Sans réponse</div>
+            <div style="font-size:17px;font-weight:800;color:#9CA3AF;">35 026</div>
+          </div>
         </div>
       </div>
 
-      <!-- Colonne droite : Analyse CSAT + Corrélations + Plan -->
-      <div style="display:flex;flex-direction:column;gap:10px;">
+      <!-- Segment bars -->
+      <div class="card" style="padding:14px;">
+        <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Volume par segment · top tags (base 37 701)</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
 
-        <div class="alert alert-red">
-          <div class="alert-title">🔬 Analyse CSAT : l'Effet Iceberg</div>
-          <div class="alert-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:9px;text-align:center;">
-              <div style="background:#FEE2E2;border-radius:8px;padding:8px;">
-                <div style="font-size:16px;font-weight:800;color:#991B1B;">2 675</div>
-                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Réponses reçues</div>
-              </div>
-              <div style="background:#FEF3C7;border-radius:8px;padding:8px;">
-                <div style="font-size:16px;font-weight:800;color:#92400E;">35 026</div>
-                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Sans réponse (90%)</div>
-              </div>
-              <div style="background:#EDE9FE;border-radius:8px;padding:8px;">
-                <div style="font-size:16px;font-weight:800;color:#5B21B6;">≈ 3×</div>
-                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Biais insatisfaits</div>
-              </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#374151;">Particulier (B2C)</span>
+              <span style="font-size:13px;font-weight:800;color:#8B5CF6;">12 359</span>
             </div>
-            <div style="font-size:11px;color:#374151;line-height:1.6;border-top:1px solid #FECACA;padding-top:7px;">
-              <strong>Biais de sélection :</strong> Les clients insatisfaits répondent statistiquement 2 à 3× plus que les clients satisfaits. Avec seulement 10,3% de taux de réponse, le CSAT réel de la base globale est probablement <strong style="color:#991B1B;">encore plus dégradé</strong> que les 43% mesurés — ce chiffre est un plancher, pas un reflet fidèle.
-            </div>
+            <div style="height:10px;border-radius:99px;background:#E5E7EB;overflow:hidden;"><div style="height:100%;width:100%;background:linear-gradient(90deg,#8B5CF6,#A78BFA);border-radius:99px;"></div></div>
           </div>
-        </div>
 
-        <div class="alert alert-orange">
-          <div class="alert-title">🔗 Corrélations KPI → CSAT dégradé</div>
-          <div class="alert-body">
-            <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;">
-              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-red" style="flex-shrink:0;">SLA cassé</span><span style="color:#6B7280;">FRT non mesuré → délais réels invisibles → insatisfaction non détectée</span></div>
-              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-red" style="flex-shrink:0;">3 notifs OFF</span><span style="color:#6B7280;">Agents non alertés de l'assignation → temps de réponse allongé</span></div>
-              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-orange" style="flex-shrink:0;">Automations OFF</span><span style="color:#6B7280;">Tickets en attente oubliés 24h/5j → frustration client directe</span></div>
-              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-orange" style="flex-shrink:0;">On Hold OFF</span><span style="color:#6B7280;">"En attente" mal utilisé → SLA artificiellement amélioré, réalité cachée</span></div>
-              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-yellow" style="flex-shrink:0;">Copilot 6,1%</span><span style="color:#6B7280;">Résolutions 100% manuelles → qualité variable selon agent</span></div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#374151;">Canal Email</span>
+              <span style="font-size:13px;font-weight:800;color:#3B82F6;">8 981</span>
             </div>
+            <div style="height:10px;border-radius:99px;background:#E5E7EB;overflow:hidden;"><div style="height:100%;width:72.7%;background:linear-gradient(90deg,#3B82F6,#60A5FA);border-radius:99px;"></div></div>
           </div>
-        </div>
 
-        <div class="alert alert-indigo">
-          <div class="alert-title">📋 Feuille de route : débloquer les KPIs</div>
-          <div class="alert-body">
-            <div style="font-size:11px;display:flex;flex-direction:column;gap:4px;line-height:1.5;">
-              <div><span class="badge badge-red" style="margin-right:5px;">S1</span>Corriger le filtre SLA → débloquer FRT, AHT et taux de respect mesurables dans Explore</div>
-              <div><span class="badge badge-red" style="margin-right:5px;">S1</span>Activer les 3 triggers de notification → réduire le temps de prise en charge</div>
-              <div><span class="badge badge-orange" style="margin-right:5px;">S2</span>Créer un dashboard Explore : CSAT segmenté par agent, groupe, canal et tag</div>
-              <div><span class="badge badge-orange" style="margin-right:5px;">S2</span>Activer les automations de relance → mesurer l'impact sur FCR et CSAT</div>
-              <div><span class="badge badge-yellow" style="margin-right:5px;">M2</span>Benchmark trimestriel CSAT vs taux de réponse — objectif : passer à &gt;60% positif en 3 mois</div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#374151;">Professionnel (B2B)</span>
+              <span style="font-size:13px;font-weight:800;color:#14B8A6;">6 455</span>
             </div>
+            <div style="height:10px;border-radius:99px;background:#E5E7EB;overflow:hidden;"><div style="height:100%;width:52.2%;background:linear-gradient(90deg,#14B8A6,#2DD4BF);border-radius:99px;"></div></div>
           </div>
-        </div>
 
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#374151;">Sentiment Négatif (tag IA)</span>
+              <span style="font-size:13px;font-weight:800;color:#EF4444;">3 452</span>
+            </div>
+            <div style="height:10px;border-radius:99px;background:#E5E7EB;overflow:hidden;"><div style="height:100%;width:27.9%;background:linear-gradient(90deg,#EF4444,#F87171);border-radius:99px;"></div></div>
+          </div>
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#374151;">AI Copilot actif</span>
+              <span style="font-size:13px;font-weight:800;color:#F97316;">2 288</span>
+            </div>
+            <div style="height:10px;border-radius:99px;background:#E5E7EB;overflow:hidden;position:relative;">
+              <div style="height:100%;width:18.5%;background:linear-gradient(90deg,#F97316,#FB923C);border-radius:99px;"></div>
+              <div style="position:absolute;top:0;bottom:0;left:30%;width:2px;background:#8B5CF6;opacity:.5;"></div>
+            </div>
+            <div style="font-size:9px;color:#9CA3AF;margin-top:2px;text-align:right;">▲ cible 30%</div>
+          </div>
+
+        </div>
       </div>
+
+    </div>
+
+    <!-- ROW 3 : SLA bloqué + Agents + Cibles -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+
+      <!-- SLA bloqué -->
+      <div class="card" style="padding:12px;">
+        <div style="font-size:9px;font-weight:700;color:#EF4444;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">SLA · métriques bloquées</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#FEF2F2;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;font-weight:600;color:#374151;">First Reply Time</span>
+            <span style="font-size:10px;font-weight:700;color:#991B1B;">NON MESURÉ</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#FEF2F2;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;font-weight:600;color:#374151;">Temps résolution</span>
+            <span style="font-size:10px;font-weight:700;color:#991B1B;">NON MESURÉ</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#FEF2F2;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;font-weight:600;color:#374151;">Respect SLA %</span>
+            <span style="font-size:10px;font-weight:700;color:#991B1B;">NON MESURÉ</span>
+          </div>
+          <div style="font-size:9px;color:#9CA3AF;padding:0 2px;line-height:1.4;">Filtre SLA sur statut "Nouveau" uniquement → délais non calculables dans Explore</div>
+        </div>
+      </div>
+
+      <!-- Agents & Copilot -->
+      <div class="card" style="padding:12px;">
+        <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Agents &amp; Automatisation</div>
+        <div style="display:flex;justify-content:space-around;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #F3F4F6;">
+          <div style="text-align:center;">
+            <div style="font-size:26px;font-weight:800;color:#1E1B4B;">27</div>
+            <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;">Agents humains</div>
+          </div>
+          <div style="width:1px;background:#E5E7EB;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:26px;font-weight:800;color:#1E1B4B;">~5</div>
+            <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;">tickets/agent/j</div>
+          </div>
+          <div style="width:1px;background:#E5E7EB;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:26px;font-weight:800;color:#F97316;">6,1%</div>
+            <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;">Copilot actif</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#374151;margin-bottom:4px;">Couverture AI Copilot vs cible 30%</div>
+        <div style="height:14px;border-radius:99px;background:#E5E7EB;overflow:hidden;position:relative;">
+          <div style="height:100%;width:6.1%;background:linear-gradient(90deg,#F97316,#FB923C);border-radius:99px;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:30%;width:2px;background:#8B5CF6;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#9CA3AF;margin-top:3px;"><span>Actuel 6,1%</span><span style="color:#8B5CF6;">▲ Cible 30%</span></div>
+      </div>
+
+      <!-- Objectifs -->
+      <div class="card" style="padding:12px;">
+        <div style="font-size:9px;font-weight:700;color:#22C55E;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Objectifs recommandés</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;color:#374151;">CSAT Positif</span>
+            <span style="font-size:14px;font-weight:800;color:#166534;">&gt;80%</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;color:#374151;">Taux réponse CSAT</span>
+            <span style="font-size:14px;font-weight:800;color:#166534;">&gt;20%</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;color:#374151;">First Reply Time</span>
+            <span style="font-size:14px;font-weight:800;color:#166534;">&lt;4h</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;color:#374151;">Respect SLA</span>
+            <span style="font-size:14px;font-weight:800;color:#166534;">&gt;90%</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;border-radius:8px;padding:8px 10px;">
+            <span style="font-size:11px;color:#374151;">Copilot actif</span>
+            <span style="font-size:14px;font-weight:800;color:#166534;">&gt;30%</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
