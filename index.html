@@ -171,6 +171,8 @@
   /* ── ZD LINKS ───────────────────────────────────────── */
   .zd-link { display:inline-flex; align-items:center; gap:2px; color:#8B5CF6; text-decoration:none; font-size:10px; font-weight:600; opacity:.7; margin-left:5px; white-space:nowrap; border:1px solid rgba(139,92,246,.3); border-radius:4px; padding:1px 5px; }
   .zd-link:hover { opacity:1; background:rgba(139,92,246,.08); }
+  .zd-link-sm { color:#8B5CF6; text-decoration:none; font-size:9px; font-weight:700; margin-left:2px; opacity:.75; }
+  .zd-link-sm:hover { opacity:1; text-decoration:underline; }
 
   /* ── TASK CHECKBOXES ────────────────────────────────── */
   .check-row { display:flex; align-items:flex-start; gap:9px; padding:6px 14px; border-bottom:1px solid #F3F4F6; font-size:11.5px; color:#374151; cursor:pointer; user-select:none; transition:background .15s; }
@@ -959,8 +961,8 @@
     <h2>🎯 Objectifs : Points d'analyse détaillée</h2>
     <span class="sh-badge">3 DOMAINES ANALYSÉS</span>
   </div>
-  <div class="slide-body" style="padding:14px 18px 72px;">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;height:100%;">
+  <div class="slide-body" style="padding:14px 18px 72px;overflow:hidden;display:flex;flex-direction:column;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;min-height:0;">
 
       <!-- Col 1 : Structure & Sécurité -->
       <div style="border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;">
@@ -995,24 +997,24 @@
         </div>
         <div style="background:#fff;padding:11px 14px;font-size:11px;color:#374151;display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex:1;">
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;">Triggers</div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>[Priorité] Elevée : à paramétrer (#41367084964881) <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers/41367084964881/edit" target="_blank" class="zd-link">↗ Modifier</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>[Priorité] Elevée : à paramétrer (#41367084964881) <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers/41367084964881/edit" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Priorités basées sur champ "motif" pour un meilleur SLA</span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>MARQUEUR : Commentaire <em>public agent</em> détecté : à vérifier <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link">↗ Triggers</a></span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Ticket Invoice/Mastercard : trigger avec juste un tag, objectif ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link">↗ Triggers</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>MARQUEUR : Commentaire <em>public agent</em> détecté : à vérifier <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link-sm">↗</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Ticket Invoice/Mastercard : trigger avec juste un tag, objectif ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Account manager : champ lookup org ≠ dropdown utilisateurs finaux</span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Marqueur TPE → affectation "ANY" non correctement implémenté <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link">↗ Triggers</a></span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Réponse client → Statut Ouvert : objectif de ce trigger ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link">↗ Triggers</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Marqueur TPE → affectation "ANY" non correctement implémenté <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link-sm">↗</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Réponse client → Statut Ouvert : objectif de ce trigger ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/triggers" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Automations</div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Bump bump (résolu) inactif <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/automations" target="_blank" class="zd-link">↗ Automations</a></span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>CSAT messagerie inactif <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/automations" target="_blank" class="zd-link">↗ Automations</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>Bump bump (résolu) inactif <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/automations" target="_blank" class="zd-link-sm">↗</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>CSAT messagerie inactif <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/automations" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Champs ticket</div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Canal de recepcion" : utilité ? Remplacer par champ natif <a href="https://noelsepay.zendesk.com/admin/objects-rules/tickets/fields" target="_blank" class="zd-link">↗ Champs</a></span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Address destination" : objectif de ce champ ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/tickets/fields" target="_blank" class="zd-link">↗ Champs</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Canal de recepcion" : utilité ? Remplacer par champ natif <a href="https://noelsepay.zendesk.com/admin/objects-rules/tickets/fields" target="_blank" class="zd-link-sm">↗</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>"Address destination" : objectif de ce champ ? <a href="https://noelsepay.zendesk.com/admin/objects-rules/tickets/fields" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">SLA</div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Modifier le titre de la politique SLA <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/sla" target="_blank" class="zd-link">↗ SLA</a></span></div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>Filtré uniquement sur statut "Nouveau", ne couvre pas le reste du cycle <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/sla" target="_blank" class="zd-link">↗ SLA</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Modifier le titre de la politique SLA <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/sla" target="_blank" class="zd-link-sm">↗</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🔴</span><span>Filtré uniquement sur statut "Nouveau", ne couvre pas le reste du cycle <a href="https://noelsepay.zendesk.com/admin/objects-rules/rules/sla" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Macros</div>
-          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Créer des sous-dossiers avec "::" <a href="https://noelsepay.zendesk.com/admin/workspaces/agent-workspace/macros" target="_blank" class="zd-link">↗ Macros</a></span></div>
+          <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟡</span><span>Créer des sous-dossiers avec "::" <a href="https://noelsepay.zendesk.com/admin/workspaces/agent-workspace/macros" target="_blank" class="zd-link-sm">↗</a></span></div>
           <div style="display:flex;gap:5px;align-items:flex-start;color:#6B7280;font-style:italic;"><span>→</span><span>Il faudrait encore leur ajouter des actions</span></div>
           <div style="font-size:9px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Copilot</div>
           <div style="display:flex;gap:5px;align-items:flex-start;"><span>🟠</span><span>90 recommandations AI à analyser et implémenter</span></div>
