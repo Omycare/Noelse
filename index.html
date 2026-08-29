@@ -1043,8 +1043,137 @@
   </div>
 </div>
 
-<!-- ══════════════════ SLIDE 13 — MERCI ══════════════════ -->
-<div class="slide slide-dark" id="slide-13">
+<!-- ══════════════════ SLIDE 13 — KPI ANALYTIQUE ══════════════════ -->
+<div class="slide" id="slide-13">
+  <div class="slide-header">
+    <h2>📈 Tableau de Bord KPI — Vision Analytique</h2>
+    <span class="sh-badge">5 DOMAINES · 16 INDICATEURS</span>
+  </div>
+  <div class="slide-body">
+
+    <!-- 4 KPI cards -->
+    <div class="grid grid-4" style="margin-bottom:14px;">
+      <div class="card stat" style="border-top:3px solid #EF4444;">
+        <div style="font-size:9px;font-weight:700;color:#EF4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">CSAT Positif · Actuel</div>
+        <div class="stat-num" style="color:#EF4444;">43%</div>
+        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;80%</span></div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:43%;background:#EF4444;"></div></div>
+      </div>
+      <div class="card stat" style="border-top:3px solid #F97316;">
+        <div style="font-size:9px;font-weight:700;color:#9A3412;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Taux Réponse CSAT</div>
+        <div class="stat-num" style="color:#F97316;">10,3%</div>
+        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;20%</span></div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:10%;background:#F97316;"></div></div>
+      </div>
+      <div class="card stat" style="border-top:3px solid #EAB308;">
+        <div style="font-size:9px;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Sentiment Négatif IA</div>
+        <div class="stat-num" style="color:#EAB308;">9,1%</div>
+        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">3 452 tickets</span></div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:9%;background:#EAB308;"></div></div>
+      </div>
+      <div class="card stat" style="border-top:3px solid #8B5CF6;">
+        <div style="font-size:9px;font-weight:700;color:#5B21B6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Couverture AI Copilot</div>
+        <div class="stat-num" style="color:#8B5CF6;">6,1%</div>
+        <div style="display:flex;justify-content:center;gap:6px;margin-top:5px;align-items:center;"><span style="font-size:10px;color:#9CA3AF;">Cible :</span><span class="badge badge-green">&gt;30%</span></div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:6%;background:#8B5CF6;"></div></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="gap:14px;">
+
+      <!-- Colonne gauche : Matrice KPI + Plan de mesure -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card">
+          <div class="section-label">Matrice KPI recommandée</div>
+          <table>
+            <thead><tr><th>KPI</th><th>Actuel</th><th>Cible</th><th>État</th></tr></thead>
+            <tbody>
+              <tr class="tcat"><td colspan="4">SATISFACTION CLIENT</td></tr>
+              <tr><td>CSAT Score</td><td style="color:#991B1B;font-weight:700;">43%</td><td>&gt;80%</td><td><span class="badge badge-red">Critique</span></td></tr>
+              <tr><td>Taux réponse CSAT</td><td style="color:#991B1B;font-weight:700;">10,3%</td><td>&gt;20%</td><td><span class="badge badge-red">Critique</span></td></tr>
+              <tr><td>Sentiment négatif IA</td><td style="color:#92400E;font-weight:700;">9,1%</td><td>&lt;3%</td><td><span class="badge badge-orange">Élevé</span></td></tr>
+              <tr><td>Score Trustpilot</td><td style="color:#9CA3AF;">n/d</td><td>&gt;4,0</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+              <tr class="tcat"><td colspan="4">DÉLAIS & SLA</td></tr>
+              <tr><td>First Reply Time (FRT)</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&lt;4h</td><td><span class="badge badge-red">Bloqué</span></td></tr>
+              <tr><td>Temps résolution moyen</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&lt;8h</td><td><span class="badge badge-red">Bloqué</span></td></tr>
+              <tr><td>Taux respect SLA</td><td style="color:#991B1B;font-weight:700;">non mesuré*</td><td>&gt;90%</td><td><span class="badge badge-red">Bloqué</span></td></tr>
+              <tr class="tcat"><td colspan="4">VOLUME & RÉSOLUTION</td></tr>
+              <tr><td>Tickets / jour</td><td style="font-weight:700;">~135</td><td>référence</td><td><span class="badge badge-purple">Suivi</span></td></tr>
+              <tr><td>FCR (résolution 1er contact)</td><td style="color:#9CA3AF;">n/d</td><td>&gt;75%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+              <tr><td>Taux réouverture tickets</td><td style="color:#9CA3AF;">n/d</td><td>&lt;5%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+              <tr class="tcat"><td colspan="4">PERFORMANCE AGENTS</td></tr>
+              <tr><td>Tickets / agent / jour</td><td style="font-weight:700;">~5</td><td>référence</td><td><span class="badge badge-purple">Suivi</span></td></tr>
+              <tr><td>CSAT par agent</td><td style="color:#9CA3AF;">n/d</td><td>&gt;80%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+              <tr><td>Taux escalade</td><td style="color:#9CA3AF;">n/d</td><td>&lt;10%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+              <tr class="tcat"><td colspan="4">DÉFLEXION & IA</td></tr>
+              <tr><td>Couverture AI Copilot</td><td style="color:#92400E;font-weight:700;">6,1%</td><td>&gt;30%</td><td><span class="badge badge-yellow">Faible</span></td></tr>
+              <tr><td>Taux déflexion FAQ</td><td style="color:#9CA3AF;">n/d</td><td>&gt;15%</td><td><span class="badge badge-gray">À mesurer</span></td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:9px;color:#9CA3AF;margin-top:6px;">*SLA filtré sur statut "Nouveau" uniquement → métriques de délai non calculables dans Explore</div>
+        </div>
+      </div>
+
+      <!-- Colonne droite : Analyse CSAT + Corrélations + Plan -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+
+        <div class="alert alert-red">
+          <div class="alert-title">🔬 Analyse CSAT : l'Effet Iceberg</div>
+          <div class="alert-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:9px;text-align:center;">
+              <div style="background:#FEE2E2;border-radius:8px;padding:8px;">
+                <div style="font-size:16px;font-weight:800;color:#991B1B;">2 675</div>
+                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Réponses reçues</div>
+              </div>
+              <div style="background:#FEF3C7;border-radius:8px;padding:8px;">
+                <div style="font-size:16px;font-weight:800;color:#92400E;">35 026</div>
+                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Sans réponse (90%)</div>
+              </div>
+              <div style="background:#EDE9FE;border-radius:8px;padding:8px;">
+                <div style="font-size:16px;font-weight:800;color:#5B21B6;">≈ 3×</div>
+                <div style="font-size:9px;color:#9CA3AF;text-transform:uppercase;margin-top:2px;">Biais insatisfaits</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#374151;line-height:1.6;border-top:1px solid #FECACA;padding-top:7px;">
+              <strong>Biais de sélection :</strong> Les clients insatisfaits répondent statistiquement 2 à 3× plus que les clients satisfaits. Avec seulement 10,3% de taux de réponse, le CSAT réel de la base globale est probablement <strong style="color:#991B1B;">encore plus dégradé</strong> que les 43% mesurés — ce chiffre est un plancher, pas un reflet fidèle.
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-orange">
+          <div class="alert-title">🔗 Corrélations KPI → CSAT dégradé</div>
+          <div class="alert-body">
+            <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;">
+              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-red" style="flex-shrink:0;">SLA cassé</span><span style="color:#6B7280;">FRT non mesuré → délais réels invisibles → insatisfaction non détectée</span></div>
+              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-red" style="flex-shrink:0;">3 notifs OFF</span><span style="color:#6B7280;">Agents non alertés de l'assignation → temps de réponse allongé</span></div>
+              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-orange" style="flex-shrink:0;">Automations OFF</span><span style="color:#6B7280;">Tickets en attente oubliés 24h/5j → frustration client directe</span></div>
+              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-orange" style="flex-shrink:0;">On Hold OFF</span><span style="color:#6B7280;">"En attente" mal utilisé → SLA artificiellement amélioré, réalité cachée</span></div>
+              <div style="display:flex;align-items:flex-start;gap:7px;"><span class="badge badge-yellow" style="flex-shrink:0;">Copilot 6,1%</span><span style="color:#6B7280;">Résolutions 100% manuelles → qualité variable selon agent</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-indigo">
+          <div class="alert-title">📋 Feuille de route : débloquer les KPIs</div>
+          <div class="alert-body">
+            <div style="font-size:11px;display:flex;flex-direction:column;gap:4px;line-height:1.5;">
+              <div><span class="badge badge-red" style="margin-right:5px;">S1</span>Corriger le filtre SLA → débloquer FRT, AHT et taux de respect mesurables dans Explore</div>
+              <div><span class="badge badge-red" style="margin-right:5px;">S1</span>Activer les 3 triggers de notification → réduire le temps de prise en charge</div>
+              <div><span class="badge badge-orange" style="margin-right:5px;">S2</span>Créer un dashboard Explore : CSAT segmenté par agent, groupe, canal et tag</div>
+              <div><span class="badge badge-orange" style="margin-right:5px;">S2</span>Activer les automations de relance → mesurer l'impact sur FCR et CSAT</div>
+              <div><span class="badge badge-yellow" style="margin-right:5px;">M2</span>Benchmark trimestriel CSAT vs taux de réponse — objectif : passer à &gt;60% positif en 3 mois</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 14 — MERCI ══════════════════ -->
+<div class="slide slide-dark" id="slide-14">
   <div class="cover-centered">
     <div style="font-size:48px;margin-bottom:16px;">🙏</div>
     <h1 style="font-size:clamp(26px,3.8vw,46px);font-weight:800;line-height:1.15;margin-bottom:24px;color:#fff;text-align:center;white-space:nowrap;">
