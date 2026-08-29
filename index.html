@@ -898,7 +898,7 @@
         </div>
         <div style="background:#fff;flex:1;overflow-y:auto;">
           <label class="check-row"><input type="checkbox" class="task-cb"><span class="cb-text">Regarder les <strong>automations GenAI</strong> sur périmètre test (questions FAQ simples)</span></label>
-          <label class="check-row"><input type="checkbox" class="task-cb"><span class="cb-text">Activer la <strong>CAF automation</strong> (versements) si saisonnalité identifiée</span></label>
+          <label class="check-row"><input type="checkbox" class="task-cb"><span class="cb-text">Regarder le <strong>trigger CAF</strong> "Message automatique versement" si saisonnalité confirmée. Analyser l’objectif principal afin de déterminer s’il est nécessaire de revoir certains workflows qui pourraient aider à répondre à ce besoin. </span></label>
           <label class="check-row"><input type="checkbox" class="task-cb"><span class="cb-text">Déployer <strong>Zendesk Explore</strong> pour suivi CSAT / SLA par agent et canal</span></label>
         </div>
       </div>
@@ -920,23 +920,13 @@
         <div class="section-label">Flux 1 : Récupération CSAT négatif</div>
         <p style="font-size:12px;line-height:1.6;color:#4B5563;">
           57% de notes négatives = signal d'alarme. Mettre en place un flux dédié pour les scores &lt;3 : escalade automatique vers un superviseur, rappel client dans les 24h, tag de suivi.
-          <br><br><strong style="color:#1E1B4B;">Impact estimé :</strong> +10-15 pts de satisfaction en 3 mois.
         </p>
       </div>
       <div class="card">
         <div style="font-size:22px;margin-bottom:7px;">🤖</div>
-        <div class="section-label">Flux 2 : GenAI sur questions FAQ</div>
+        <div class="section-label">Flux 2 : AIbot sur questions FAQ</div>
         <p style="font-size:12px;line-height:1.6;color:#4B5563;">
-          Les automations GenAI sont configurées mais OFF. Les articles HC couvrent des sujets récurrents (avance 100€, virements, CAF). Activer en mode test sur le groupe Support Particuliers.
-          <br><br><strong style="color:#1E1B4B;">Impact estimé :</strong> déflection de 15-20% des tickets simples.
-        </p>
-      </div>
-      <div class="card">
-        <div style="font-size:22px;margin-bottom:7px;">🏦</div>
-        <div class="section-label">Flux 3 : Routage CAF / aides sociales</div>
-        <p style="font-size:12px;line-height:1.6;color:#4B5563;">
-          Le trigger "CAF – Message automatique période de versement" est OFF. Un message automatique en période de versement réduirait les tickets entrants de janvier, avril, juillet.
-          <br><br><strong style="color:#1E1B4B;">Impact :</strong> pic de volume absorbé automatiquement.
+          Nous pouvons travailler sur les réponses générées par l’IA, aussi bien via un bot que par e-mail.
         </p>
       </div>
     </div>
